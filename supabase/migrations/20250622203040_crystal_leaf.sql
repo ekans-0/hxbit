@@ -1,5 +1,5 @@
 /*
-  # ExtracurriHub Database Schema
+  # Hxbit Database Schema
 
   1. New Tables
     - `users`

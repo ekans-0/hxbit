@@ -1,4 +1,3 @@
-import React from 'react';
 import { User, Extracurricular, Task } from '../lib/supabase';
 import { Star, Zap, Trophy, Target } from 'lucide-react';
 
@@ -14,8 +13,7 @@ export function UserStats({ user, extracurriculars, tasks }: UserStatsProps) {
   const progressPercentage = (currentLevelXp / 500) * 100;
 
   const completedTasks = tasks.filter(task => task.completed);
-  const totalXpEarned = completedTasks.reduce((sum, task) => sum + task.xp_reward, 0);
-
+  completedTasks.reduce((sum, task) => sum + task.xp_reward, 0);
   return (
     <div className="bg-gradient-to-r from-slate-800/50 to-slate-800/30 backdrop-blur-xl border border-slate-700 rounded-2xl p-8 mb-8">
       <div className="flex items-center justify-between mb-6">

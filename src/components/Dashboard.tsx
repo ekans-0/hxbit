@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useAuth } from '../hooks/useAuth';
 import { useExtracurriculars } from '../hooks/useExtracurriculars';
 import { useTasks } from '../hooks/useTasks';
@@ -23,7 +23,7 @@ export function Dashboard() {
   const [activeTab, setActiveTab] = useState('dashboard');
   const [showCreateExtracurricular, setShowCreateExtracurricular] = useState(false);
   const [showCreateTask, setShowCreateTask] = useState(false);
-  const [selectedExtracurricular, setSelectedExtracurricular] = useState<string>('');
+  const [selectedExtracurricular] = useState<string>('');
 
   const handleSignOut = async () => {
     try {
@@ -36,12 +36,14 @@ export function Dashboard() {
           border: '1px solid #00D4FF',
         },
       });
-    } catch (error: any) {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    } catch (error: unknown) {
       toast.error('Failed to sign out');
     }
   };
 
   const handleCompleteTask = async (taskId: string, xpReward: number, extracurricularId: string) => {
+    // eslint-disable-next-line no-useless-catch
     try {
       const result = await completeTask(taskId, xpReward, extracurricularId);
       

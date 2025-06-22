@@ -1,4 +1,3 @@
-import React from 'react';
 import { useUserStats } from '../hooks/useUserStats';
 import { Zap, Plus, TrendingUp } from 'lucide-react';
 

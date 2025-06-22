@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useCompetitions } from '../hooks/useCompetitions';
 import { useExtracurriculars } from '../hooks/useExtracurriculars';
 import { Trophy, Plus, Calendar, Award, Trash2, Medal } from 'lucide-react';

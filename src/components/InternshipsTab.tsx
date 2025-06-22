@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useInternships } from '../hooks/useInternships';
 import { useExtracurriculars } from '../hooks/useExtracurriculars';
 import { Briefcase, Plus, Calendar, Building, Trash2, Clock } from 'lucide-react';

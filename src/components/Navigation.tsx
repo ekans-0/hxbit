@@ -1,4 +1,3 @@
-import React from 'react';
 import { Home, Trophy, Briefcase, TrendingUp, User, Sun, Moon, LogOut } from 'lucide-react';
 import { useTheme } from '../contexts/ThemeContext';
 
@@ -28,9 +27,10 @@ export function Navigation({ activeTab, setActiveTab, onSignOut }: NavigationPro
               <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg flex items-center justify-center mr-3">
                 <span className="text-white font-bold text-sm">⚡</span>
               </div>
-              <h1 className="text-xl font-bold text-gray-900 dark:text-white">ExtracurriHub</h1>
+              <h1 className="text-xl font-bold text-gray-900 dark:text-white">Hxbit</h1>
             </div>
-            
+
+
             <div className="hidden md:flex space-x-1">
               {navItems.map((item) => {
                 const Icon = item.icon;

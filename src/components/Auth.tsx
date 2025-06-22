@@ -37,8 +37,12 @@ export function Auth() {
           },
         });
       }
-    } catch (error: any) {
-      toast.error(error.message || 'Authentication failed');
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        toast.error(error.message);
+      } else {
+        toast.error('Authentication failed');
+      }
     } finally {
       setLoading(false);
     }
@@ -58,7 +62,7 @@ export function Auth() {
             <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full mb-4">
               <Zap className="w-8 h-8 text-white" />
             </div>
-            <h1 className="text-3xl font-bold text-white mb-2">ExtracurriHub</h1>
+            <h1 className="text-3xl font-bold text-white mb-2">Hxbit</h1>
             <p className="text-slate-400">
               {isLogin ? 'Welcome back, Hunter!' : 'Begin your leveling journey'}
             </p>

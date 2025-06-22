@@ -1,4 +1,3 @@
-import React from 'react';
 import { Extracurricular, Task } from '../lib/supabase';
 import { Trophy, Target, Star } from 'lucide-react';
 

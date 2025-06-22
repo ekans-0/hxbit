@@ -1,11 +1,10 @@
-import React from 'react';
 import { Task, Extracurricular } from '../lib/supabase';
 import { CheckCircle2, Circle, Zap, Trash2 } from 'lucide-react';
 
 interface TaskListProps {
   tasks: Task[];
   extracurriculars: Extracurricular[];
-  onCompleteTask: (taskId: string, xpReward: number, extracurricularId: string) => Promise<any>;
+  onCompleteTask: (taskId: string, xpReward: number, extracurricularId: string) => Promise<unknown>;
   onDeleteTask: (taskId: string) => Promise<void>;
 }
 
