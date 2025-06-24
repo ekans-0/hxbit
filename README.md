@@ -1,4 +1,3 @@
-````md
 # 🧙‍♂️ Hxbit — The Solo Leveling-Inspired Extracurricular RPG 🎮
 
 Welcome to **Hxbit** — a gamified, dark-themed, fully-featured platform that transforms real-life extracurriculars into an epic RPG adventure. Track your progress, earn XP, complete tasks, and level up like you're the main character in *Solo Leveling*. Here, you're not only building habits that stick, but also life skills, extracurricular success, and winning in an IRL RPG system.
