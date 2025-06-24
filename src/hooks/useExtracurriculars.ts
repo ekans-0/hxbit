@@ -77,6 +77,15 @@ export function useExtracurriculars(userId: string | undefined) {
 
   const deleteExtracurricular = async (id: string) => {
     try {
+      // First delete all associated tasks
+      const { error: tasksError } = await supabase
+        .from('tasks')
+        .delete()
+        .eq('extracurricular_id', id);
+
+      if (tasksError) throw tasksError;
+
+      // Then delete the extracurricular
       const { error } = await supabase
         .from('extracurriculars')
         .delete()
@@ -84,10 +93,10 @@ export function useExtracurriculars(userId: string | undefined) {
 
       if (error) throw error;
       setExtracurriculars(prev => prev.filter(e => e.id !== id));
-      toast.success('Extracurricular deleted');
+      toast.success('Activity and all associated tasks deleted');
     } catch (error) {
       console.error('Error deleting extracurricular:', error);
-      toast.error('Failed to delete extracurricular');
+      toast.error('Failed to delete activity');
       throw error;
     }
   };

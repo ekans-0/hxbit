@@ -17,7 +17,7 @@ import toast from 'react-hot-toast';
 
 export function Dashboard() {
   const { user, signOut } = useAuth();
-  const { extracurriculars, loading: extracurricularsLoading, createExtracurricular } = useExtracurriculars(user?.id);
+  const { extracurriculars, loading: extracurricularsLoading, createExtracurricular, deleteExtracurricular } = useExtracurriculars(user?.id);
   const { tasks, loading: tasksLoading, createTask, completeTask, deleteTask } = useTasks(user?.id);
   const { awardStatPoints } = useUserStats(user?.id);
   const [activeTab, setActiveTab] = useState('dashboard');
@@ -57,6 +57,16 @@ export function Dashboard() {
       return result;
     } catch (error) {
       throw error;
+    }
+  };
+
+  const handleDeleteExtracurricular = async (id: string) => {
+    if (window.confirm('Are you sure you want to delete this activity? This will also delete all associated tasks.')) {
+      try {
+        await deleteExtracurricular(id);
+      } catch (error) {
+        console.error('Error deleting extracurricular:', error);
+      }
     }
   };
 
@@ -120,7 +130,7 @@ export function Dashboard() {
               <div className="bg-white dark:bg-slate-800/50 backdrop-blur-xl border border-gray-200 dark:border-slate-700 rounded-xl p-6">
                 <div className="flex items-center">
                   <div className="p-3 bg-blue-500/20 rounded-lg">
-                    <Trophy className="w-6 h-6 text-blue-500" />
+                    <Trophy className="w-6 h-6 text-blue-600 dark:text-blue-500" />
                   </div>
                   <div className="ml-4">
                     <p className="text-sm text-gray-600 dark:text-slate-400">Active Activities</p>
@@ -132,7 +142,7 @@ export function Dashboard() {
               <div className="bg-white dark:bg-slate-800/50 backdrop-blur-xl border border-gray-200 dark:border-slate-700 rounded-xl p-6">
                 <div className="flex items-center">
                   <div className="p-3 bg-green-500/20 rounded-lg">
-                    <Target className="w-6 h-6 text-green-400" />
+                    <Target className="w-6 h-6 text-green-600 dark:text-green-400" />
                   </div>
                   <div className="ml-4">
                     <p className="text-sm text-gray-600 dark:text-slate-400">Completed Tasks</p>
@@ -144,7 +154,7 @@ export function Dashboard() {
               <div className="bg-white dark:bg-slate-800/50 backdrop-blur-xl border border-gray-200 dark:border-slate-700 rounded-xl p-6">
                 <div className="flex items-center">
                   <div className="p-3 bg-purple-500/20 rounded-lg">
-                    <Zap className="w-6 h-6 text-purple-400" />
+                    <Zap className="w-6 h-6 text-purple-600 dark:text-purple-400" />
                   </div>
                   <div className="ml-4">
                     <p className="text-sm text-gray-600 dark:text-slate-400">Pending Tasks</p>
@@ -177,6 +187,7 @@ export function Dashboard() {
                       key={extracurricular.id}
                       extracurricular={extracurricular}
                       tasks={tasks.filter(t => t.extracurricular_id === extracurricular.id)}
+                      onDelete={handleDeleteExtracurricular}
                     />
                   ))}
                 </div>
