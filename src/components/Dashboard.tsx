@@ -8,7 +8,8 @@ import { CreateExtracurricularModal } from './CreateExtracurricularModal';
 import { CreateTaskModal } from './CreateTaskModal';
 import { TaskList } from './TaskList';
 import { UserStats } from './UserStats';
-import { Navigation } from './Navigation';
+import { Sidebar } from './Sidebar';
+import { UnifiedDashboard } from './UnifiedDashboard';
 import { CompetitionsTab } from './CompetitionsTab';
 import { InternshipsTab } from './InternshipsTab';
 import { SelfImprovementTab } from './SelfImprovementTab';
@@ -21,6 +22,7 @@ export function Dashboard() {
   const { tasks, loading: tasksLoading, createTask, completeTask, deleteTask } = useTasks(user?.id);
   const { awardStatPoints } = useUserStats(user?.id);
   const [activeTab, setActiveTab] = useState('dashboard');
+  const [isCollapsed, setIsCollapsed] = useState(false);
   const [showCreateExtracurricular, setShowCreateExtracurricular] = useState(false);
   const [showCreateTask, setShowCreateTask] = useState(false);
   const [selectedExtracurricular] = useState<string>('');
@@ -36,14 +38,12 @@ export function Dashboard() {
           border: '1px solid #00D4FF',
         },
       });
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (error: unknown) {
       toast.error('Failed to sign out');
     }
   };
 
   const handleCompleteTask = async (taskId: string, xpReward: number, extracurricularId: string) => {
-    // eslint-disable-next-line no-useless-catch
     try {
       const result = await completeTask(taskId, xpReward, extracurricularId);
       
@@ -86,12 +86,52 @@ export function Dashboard() {
 
   const renderContent = () => {
     switch (activeTab) {
+      case 'dashboard':
+        return <UnifiedDashboard setActiveTab={setActiveTab} />;
+      case 'tasks':
+        return (
+          <div className="space-y-8">
+            <div className="flex items-center justify-between">
+              <div>
+                <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">Task Management</h1>
+                <p className="text-gray-600 dark:text-gray-400">Track and complete your daily objectives</p>
+              </div>
+              <button
+                onClick={() => setShowCreateTask(true)}
+                className="bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white px-6 py-3 rounded-xl flex items-center transition duration-200 transform hover:scale-105"
+              >
+                <Plus className="w-5 h-5 mr-2" />
+                New Task
+              </button>
+            </div>
+            <TaskList
+              tasks={tasks}
+              extracurriculars={extracurriculars}
+              onCompleteTask={handleCompleteTask}
+              onDeleteTask={deleteTask}
+            />
+          </div>
+        );
       case 'competitions':
         return <CompetitionsTab userId={user!.id} />;
       case 'internships':
         return <InternshipsTab userId={user!.id} />;
       case 'stats':
-        return <SelfImprovementTab userId={user!.id} />;
+      case 'fitness':
+      case 'mental':
+      case 'social':
+      case 'career':
+      case 'learning':
+        return <SelfImprovementTab userId={user!.id} initialSection={activeTab} />;
+      case 'schedule':
+        return (
+          <div className="max-w-4xl mx-auto p-6">
+            <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-6">Schedule & Planning</h1>
+            <div className="bg-white dark:bg-slate-800 rounded-xl p-6 border border-gray-200 dark:border-slate-700">
+              <p className="text-gray-600 dark:text-gray-400">Advanced scheduling system coming soon...</p>
+            </div>
+          </div>
+        );
       case 'profile':
         return (
           <div className="max-w-4xl mx-auto p-6">
@@ -103,12 +143,12 @@ export function Dashboard() {
         );
       default:
         return (
-          <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+          <main className="space-y-8">
             {/* User Stats */}
             <UserStats user={user!} extracurriculars={extracurriculars} tasks={tasks} />
 
             {/* Action Buttons */}
-            <div className="flex flex-wrap gap-4 mb-8">
+            <div className="flex flex-wrap gap-4">
               <button
                 onClick={() => setShowCreateExtracurricular(true)}
                 className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-6 py-3 rounded-xl flex items-center transition duration-200 transform hover:scale-105"
@@ -126,7 +166,7 @@ export function Dashboard() {
             </div>
 
             {/* Quick Stats Cards */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               <div className="bg-white dark:bg-slate-800/50 backdrop-blur-xl border border-gray-200 dark:border-slate-700 rounded-xl p-6">
                 <div className="flex items-center">
                   <div className="p-3 bg-blue-500/20 rounded-lg">
@@ -165,7 +205,7 @@ export function Dashboard() {
             </div>
 
             {/* Extracurriculars Grid */}
-            <div className="mb-8">
+            <div>
               <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">Your Activities</h2>
               {extracurriculars.length === 0 ? (
                 <div className="text-center py-12">
@@ -235,14 +275,38 @@ export function Dashboard() {
         <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 rounded-full bg-cyan-500/3 blur-3xl animate-pulse delay-1000"></div>
       </div>
 
-      <div className="relative">
-        <Navigation 
+      <div className="relative flex">
+        <Sidebar 
           activeTab={activeTab} 
           setActiveTab={setActiveTab} 
-          onSignOut={handleSignOut} 
+          onSignOut={handleSignOut}
+          isCollapsed={isCollapsed}
+          setIsCollapsed={setIsCollapsed}
         />
-        {renderContent()}
+        
+        <main className={`flex-1 transition-all duration-300 ${isCollapsed ? 'ml-16' : 'ml-64'}`}>
+          <div className="p-6">
+            {renderContent()}
+          </div>
+        </main>
       </div>
+
+      {/* Modals */}
+      {showCreateExtracurricular && (
+        <CreateExtracurricularModal
+          onClose={() => setShowCreateExtracurricular(false)}
+          onCreate={createExtracurricular}
+        />
+      )}
+
+      {showCreateTask && (
+        <CreateTaskModal
+          extracurriculars={extracurriculars}
+          onClose={() => setShowCreateTask(false)}
+          onCreate={createTask}
+          selectedExtracurricular={selectedExtracurricular}
+        />
+      )}
     </div>
   );
 }
