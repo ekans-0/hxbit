@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Task, Extracurricular } from '../lib/supabase';
-import { X, Zap, Plus } from 'lucide-react';
+import { X, Zap, Plus, AlertTriangle } from 'lucide-react';
 
 interface CreateTaskModalProps {
   extracurriculars: Extracurricular[];
@@ -20,7 +20,8 @@ const STAT_CATEGORIES = {
   physical: ['strength', 'agility', 'endurance', 'vitality'],
   mental: ['intelligence', 'perception', 'sense'],
   social: ['charisma', 'luck'],
-  general: ['hygiene']
+  general: ['hygiene'],
+  career: ['leadership', 'creativity', 'discipline']
 };
 
 export function CreateTaskModal({ extracurriculars, onClose, onCreate, selectedExtracurricular }: CreateTaskModalProps) {
@@ -29,6 +30,8 @@ export function CreateTaskModal({ extracurriculars, onClose, onCreate, selectedE
     description: '',
     extracurricular_id: selectedExtracurricular || '',
     xp_reward: 25,
+    is_required: false,
+    due_date: null as string | null,
     stat_rewards: {} as Record<string, number>
   });
   const [loading, setLoading] = useState(false);
@@ -45,6 +48,8 @@ export function CreateTaskModal({ extracurriculars, onClose, onCreate, selectedE
         description: formData.description.trim(),
         extracurricular_id: formData.extracurricular_id,
         xp_reward: formData.xp_reward,
+        is_required: formData.is_required,
+        due_date: formData.due_date,
       });
       onClose();
     } catch (error) {
@@ -66,8 +71,8 @@ export function CreateTaskModal({ extracurriculars, onClose, onCreate, selectedE
 
   return (
     <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4 z-50 overflow-y-auto">
-      <div className="bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 rounded-2xl w-full max-w-2xl mx-auto my-8 max-h-[90vh] overflow-y-auto">
-        <div className="flex items-center justify-between p-6 border-b border-gray-200 dark:border-slate-700 sticky top-0 bg-white dark:bg-slate-800 rounded-t-2xl">
+      <div className="bg-white dark:bg-slate-800 border border-gray-300 dark:border-slate-700 rounded-2xl w-full max-w-2xl mx-auto my-8 max-h-[90vh] overflow-y-auto">
+        <div className="flex items-center justify-between p-6 border-b border-gray-300 dark:border-slate-700 sticky top-0 bg-white dark:bg-slate-800 rounded-t-2xl">
           <h2 className="text-2xl font-bold text-gray-900 dark:text-white">Create New Task</h2>
           <button
             onClick={onClose}
@@ -127,6 +132,39 @@ export function CreateTaskModal({ extracurriculars, onClose, onCreate, selectedE
             />
           </div>
 
+          {/* Required Task Toggle */}
+          <div className="flex items-center space-x-3">
+            <input
+              type="checkbox"
+              id="is_required"
+              checked={formData.is_required}
+              onChange={(e) => setFormData(prev => ({ ...prev, is_required: e.target.checked }))}
+              className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+            />
+            <label htmlFor="is_required" className="text-sm font-medium text-gray-700 dark:text-gray-300">
+              Required Task
+            </label>
+            {formData.is_required && (
+              <div className="flex items-center text-red-600 dark:text-red-400">
+                <AlertTriangle className="w-4 h-4 mr-1" />
+                <span className="text-xs">You'll lose XP if not completed</span>
+              </div>
+            )}
+          </div>
+
+          {/* Due Date */}
+          <div>
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+              Due Date (Optional)
+            </label>
+            <input
+              type="date"
+              value={formData.due_date || ''}
+              onChange={(e) => setFormData(prev => ({ ...prev, due_date: e.target.value || null }))}
+              className="w-full px-4 py-3 bg-gray-50 dark:bg-slate-700 border border-gray-300 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 dark:text-white"
+            />
+          </div>
+
           {/* XP Reward */}
           <div>
             <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">
@@ -140,7 +178,7 @@ export function CreateTaskModal({ extracurriculars, onClose, onCreate, selectedE
                   onClick={() => setFormData(prev => ({ ...prev, xp_reward: preset.value }))}
                   className={`p-3 border rounded-lg transition-all text-left ${
                     formData.xp_reward === preset.value
-                      ? 'border-blue-500 bg-blue-500/20 text-blue-700 dark:text-blue-300'
+                      ? 'border-blue-500 bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-300'
                       : 'border-gray-300 dark:border-slate-600 bg-gray-50 dark:bg-slate-700 text-gray-700 dark:text-gray-300 hover:border-gray-400 dark:hover:border-slate-500'
                   }`}
                 >
@@ -166,39 +204,6 @@ export function CreateTaskModal({ extracurriculars, onClose, onCreate, selectedE
                 max="1000"
                 className="w-full px-3 py-2 bg-gray-50 dark:bg-slate-700 border border-gray-300 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 dark:text-white text-sm"
               />
-            </div>
-          </div>
-
-          {/* Stat Rewards */}
-          <div>
-            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">
-              Stat Bonuses (Optional)
-            </label>
-            <div className="space-y-4">
-              {Object.entries(STAT_CATEGORIES).map(([category, stats]) => (
-                <div key={category}>
-                  <h4 className="text-sm font-medium text-gray-600 dark:text-gray-400 mb-2 capitalize">
-                    {category} Stats
-                  </h4>
-                  <div className="grid grid-cols-2 gap-3">
-                    {stats.map((stat) => (
-                      <div key={stat} className="flex items-center space-x-2">
-                        <label className="text-sm text-gray-700 dark:text-gray-300 capitalize flex-1">
-                          {stat}
-                        </label>
-                        <input
-                          type="number"
-                          min="0"
-                          max="10"
-                          value={formData.stat_rewards[stat] || 0}
-                          onChange={(e) => updateStatReward(stat, parseInt(e.target.value) || 0)}
-                          className="w-16 px-2 py-1 bg-gray-50 dark:bg-slate-700 border border-gray-300 dark:border-slate-600 rounded text-gray-900 dark:text-white text-sm"
-                        />
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              ))}
             </div>
           </div>
 

@@ -1,5 +1,5 @@
 import { Task, Extracurricular } from '../lib/supabase';
-import { CheckCircle2, Circle, Zap, Trash2 } from 'lucide-react';
+import { CheckCircle2, Circle, Zap, Trash2, AlertTriangle, Calendar } from 'lucide-react';
 
 interface TaskListProps {
   tasks: Task[];
@@ -23,6 +23,25 @@ export function TaskList({ tasks, extracurriculars, onCompleteTask, onDeleteTask
     }
   };
 
+  const isOverdue = (task: Task) => {
+    if (!task.due_date) return false;
+    const today = new Date().toISOString().split('T')[0];
+    return task.due_date < today && !task.completed;
+  };
+
+  const formatDueDate = (dateString: string) => {
+    const date = new Date(dateString);
+    const today = new Date();
+    const diffTime = date.getTime() - today.getTime();
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+    
+    if (diffDays === 0) return 'Due today';
+    if (diffDays === 1) return 'Due tomorrow';
+    if (diffDays === -1) return 'Due yesterday';
+    if (diffDays < 0) return `${Math.abs(diffDays)} days overdue`;
+    return `Due in ${diffDays} days`;
+  };
+
   if (tasks.length === 0) {
     return (
       <div className="text-center py-8">
@@ -36,14 +55,19 @@ export function TaskList({ tasks, extracurriculars, onCompleteTask, onDeleteTask
     <div className="space-y-3">
       {tasks.map((task) => {
         const extracurricular = getExtracurricular(task.extracurricular_id);
+        const overdue = isOverdue(task);
         
         return (
           <div
             key={task.id}
-            className={`bg-white dark:bg-slate-800/50 backdrop-blur-xl border rounded-xl p-4 transition-all duration-200 group ${
+            className={`bg-white dark:bg-slate-800 backdrop-blur-xl border rounded-xl p-4 transition-all duration-200 group ${
               task.completed 
-                ? 'border-green-200 dark:border-green-500/30 bg-green-50 dark:bg-green-500/5' 
-                : 'border-gray-200 dark:border-slate-700 hover:border-blue-200 dark:hover:border-blue-500/50'
+                ? 'border-green-300 dark:border-green-500/30 bg-green-50 dark:bg-green-500/5' 
+                : overdue
+                ? 'border-red-300 dark:border-red-500/50 bg-red-50 dark:bg-red-500/5'
+                : task.is_required
+                ? 'border-yellow-300 dark:border-yellow-500/50 bg-yellow-50 dark:bg-yellow-500/5'
+                : 'border-gray-300 dark:border-slate-700 hover:border-blue-300 dark:hover:border-blue-500/50'
             }`}
           >
             <div className="flex items-center justify-between">
@@ -71,15 +95,37 @@ export function TaskList({ tasks, extracurriculars, onCompleteTask, onDeleteTask
                     }`}>
                       {task.title}
                     </h3>
-                    {extracurricular && (
-                      <span className="text-xs px-2 py-1 rounded-full bg-gray-100 dark:bg-slate-700 text-gray-700 dark:text-slate-300 flex items-center">
-                        <span className="mr-1">{extracurricular.icon}</span>
-                        {extracurricular.name}
-                      </span>
-                    )}
+                    
+                    {/* Task Type Indicators */}
+                    <div className="flex items-center space-x-2">
+                      {task.is_required && (
+                        <span className="flex items-center text-xs px-2 py-1 bg-yellow-100 dark:bg-yellow-900/30 text-yellow-700 dark:text-yellow-300 rounded-full">
+                          <AlertTriangle className="w-3 h-3 mr-1" />
+                          Required
+                        </span>
+                      )}
+                      
+                      {extracurricular && (
+                        <span className="text-xs px-2 py-1 rounded-full bg-gray-100 dark:bg-slate-700 text-gray-700 dark:text-slate-300 flex items-center">
+                          <span className="mr-1">{extracurricular.icon}</span>
+                          {extracurricular.name}
+                        </span>
+                      )}
+                    </div>
                   </div>
+                  
                   {task.description && (
-                    <p className="text-sm text-gray-600 dark:text-slate-400">{task.description}</p>
+                    <p className="text-sm text-gray-600 dark:text-slate-400 mb-1">{task.description}</p>
+                  )}
+                  
+                  {/* Due Date */}
+                  {task.due_date && (
+                    <div className={`flex items-center text-xs ${
+                      overdue ? 'text-red-600 dark:text-red-400' : 'text-gray-500 dark:text-gray-400'
+                    }`}>
+                      <Calendar className="w-3 h-3 mr-1" />
+                      {formatDueDate(task.due_date)}
+                    </div>
                   )}
                 </div>
               </div>

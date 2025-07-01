@@ -40,6 +40,8 @@ export interface Task {
   xp_reward: number;
   completed: boolean;
   completed_at: string | null;
+  is_required: boolean;
+  due_date: string | null;
   created_at: string;
 }
 
@@ -91,7 +93,24 @@ export interface UserStats {
   endurance: number;
   hygiene: number;
   perception: number;
+  leadership: number;
+  creativity: number;
+  discipline: number;
   stat_points: number;
   created_at: string;
   updated_at: string;
+}
+
+export interface ScheduleEvent {
+  id: string;
+  user_id: string;
+  title: string;
+  description: string;
+  date: string;
+  start_time: string;
+  duration: number;
+  event_type: string;
+  task_id: string | null;
+  internship_id: string | null;
+  created_at: string;
 }
