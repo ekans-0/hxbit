@@ -55,12 +55,12 @@ export function CreateExtracurricularModal({ onClose, onCreate }: CreateExtracur
 
   return (
     <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4 z-50">
-      <div className="bg-slate-800 border border-slate-700 rounded-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto">
-        <div className="flex items-center justify-between p-6 border-b border-slate-700">
-          <h2 className="text-2xl font-bold text-white">Create New Activity</h2>
+      <div className="bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 rounded-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto">
+        <div className="flex items-center justify-between p-6 border-b border-gray-200 dark:border-slate-700">
+          <h2 className="text-2xl font-bold text-gray-900 dark:text-white">Create New Activity</h2>
           <button
             onClick={onClose}
-            className="text-slate-400 hover:text-white transition-colors"
+            className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors"
           >
             <X className="w-6 h-6" />
           </button>
@@ -69,19 +69,19 @@ export function CreateExtracurricularModal({ onClose, onCreate }: CreateExtracur
         <div className="p-6">
           {/* Quick Presets */}
           <div className="mb-6">
-            <h3 className="text-lg font-semibold text-white mb-3">Quick Start</h3>
+            <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-3">Quick Start</h3>
             <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
               {PRESET_ACTIVITIES.map((preset) => (
                 <button
                   key={preset.name}
                   onClick={() => selectPreset(preset)}
-                  className="p-3 bg-slate-700/50 hover:bg-slate-700 border border-slate-600 rounded-lg transition-colors text-left"
+                  className="p-3 bg-gray-50 dark:bg-slate-700 hover:bg-gray-100 dark:hover:bg-slate-600 border border-gray-200 dark:border-slate-600 rounded-lg transition-colors text-left"
                 >
                   <div className="flex items-center mb-2">
                     <span className="text-xl mr-2">{preset.icon}</span>
-                    <span className="font-medium text-white text-sm">{preset.name}</span>
+                    <span className="font-medium text-gray-900 dark:text-white text-sm">{preset.name}</span>
                   </div>
-                  <p className="text-xs text-slate-400">{preset.description}</p>
+                  <p className="text-xs text-gray-600 dark:text-gray-400">{preset.description}</p>
                 </button>
               ))}
             </div>
@@ -90,14 +90,14 @@ export function CreateExtracurricularModal({ onClose, onCreate }: CreateExtracur
           <form onSubmit={handleSubmit} className="space-y-6">
             {/* Name */}
             <div>
-              <label className="block text-sm font-medium text-slate-300 mb-2">
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                 Activity Name
               </label>
               <input
                 type="text"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
-                className="w-full px-4 py-3 bg-slate-700/50 border border-slate-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-white placeholder-slate-400"
+                className="w-full px-4 py-3 bg-gray-50 dark:bg-slate-700 border border-gray-300 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400"
                 placeholder="e.g., Programming, Piano, Soccer"
                 required
               />
@@ -105,14 +105,14 @@ export function CreateExtracurricularModal({ onClose, onCreate }: CreateExtracur
 
             {/* Description */}
             <div>
-              <label className="block text-sm font-medium text-slate-300 mb-2">
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                 Description
               </label>
               <textarea
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
                 rows={3}
-                className="w-full px-4 py-3 bg-slate-700/50 border border-slate-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-white placeholder-slate-400"
+                className="w-full px-4 py-3 bg-gray-50 dark:bg-slate-700 border border-gray-300 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400"
                 placeholder="Describe your activity goals and what you'll track..."
                 required
               />
@@ -121,21 +121,21 @@ export function CreateExtracurricularModal({ onClose, onCreate }: CreateExtracur
             {/* Icon and Color */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
-                <label className="block text-sm font-medium text-slate-300 mb-2">
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                   Icon
                 </label>
                 <input
                   type="text"
                   value={icon}
                   onChange={(e) => setIcon(e.target.value)}
-                  className="w-full px-4 py-3 bg-slate-700/50 border border-slate-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-white placeholder-slate-400"
+                  className="w-full px-4 py-3 bg-gray-50 dark:bg-slate-700 border border-gray-300 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400"
                   placeholder="🏆"
                   maxLength={2}
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-slate-300 mb-2">
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                   Color
                 </label>
                 <div className="flex space-x-2">
@@ -145,7 +145,7 @@ export function CreateExtracurricularModal({ onClose, onCreate }: CreateExtracur
                       type="button"
                       onClick={() => setColor(c)}
                       className={`w-10 h-10 rounded-lg border-2 transition-all ${
-                        color === c ? 'border-white scale-110' : 'border-transparent'
+                        color === c ? 'border-gray-900 dark:border-white scale-110' : 'border-transparent'
                       }`}
                       style={{ backgroundColor: c }}
                     />
@@ -155,13 +155,13 @@ export function CreateExtracurricularModal({ onClose, onCreate }: CreateExtracur
             </div>
 
             {/* Preview */}
-            <div className="p-4 bg-slate-700/30 rounded-lg">
-              <p className="text-sm text-slate-400 mb-2">Preview:</p>
+            <div className="p-4 bg-gray-50 dark:bg-slate-700 rounded-lg">
+              <p className="text-sm text-gray-600 dark:text-gray-400 mb-2">Preview:</p>
               <div className="flex items-center">
                 <span className="text-2xl mr-3">{icon}</span>
                 <div>
-                  <h4 className="font-semibold text-white">{name || 'Activity Name'}</h4>
-                  <p className="text-sm text-slate-400">{description || 'Activity description'}</p>
+                  <h4 className="font-semibold text-gray-900 dark:text-white">{name || 'Activity Name'}</h4>
+                  <p className="text-sm text-gray-600 dark:text-gray-400">{description || 'Activity description'}</p>
                 </div>
               </div>
             </div>
@@ -171,7 +171,7 @@ export function CreateExtracurricularModal({ onClose, onCreate }: CreateExtracur
               <button
                 type="button"
                 onClick={onClose}
-                className="flex-1 py-3 px-4 border border-slate-600 text-slate-300 rounded-lg hover:bg-slate-700 transition-colors"
+                className="flex-1 py-3 px-4 border border-gray-300 dark:border-slate-600 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-50 dark:hover:bg-slate-700 transition-colors"
               >
                 Cancel
               </button>

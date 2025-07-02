@@ -9,13 +9,6 @@ interface CreateInternshipModalProps {
   onClose: () => void;
 }
 
-const STAT_CATEGORIES = {
-  physical: ['strength', 'agility', 'endurance', 'vitality'],
-  mental: ['intelligence', 'perception', 'sense'],
-  social: ['charisma', 'luck'],
-  general: ['hygiene']
-};
-
 export function CreateInternshipModal({ extracurriculars, onClose }: CreateInternshipModalProps) {
   const { user } = useAuth();
   const { createInternship } = useInternships(user?.id);
@@ -28,7 +21,6 @@ export function CreateInternshipModal({ extracurriculars, onClose }: CreateInter
     end_date: '',
     skills_gained: [] as string[],
     xp_reward: 150,
-    stat_rewards: {} as Record<string, number>
   });
   const [newSkill, setNewSkill] = useState('');
   const [loading, setLoading] = useState(false);
@@ -71,16 +63,6 @@ export function CreateInternshipModal({ extracurriculars, onClose }: CreateInter
     setFormData(prev => ({
       ...prev,
       skills_gained: prev.skills_gained.filter(skill => skill !== skillToRemove)
-    }));
-  };
-
-  const updateStatReward = (stat: string, value: number) => {
-    setFormData(prev => ({
-      ...prev,
-      stat_rewards: {
-        ...prev.stat_rewards,
-        [stat]: value
-      }
     }));
   };
 
@@ -238,39 +220,6 @@ export function CreateInternshipModal({ extracurriculars, onClose }: CreateInter
             <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
               Suggested: 100-300 XP based on duration and impact
             </p>
-          </div>
-
-          {/* Stat Rewards */}
-          <div>
-            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">
-              Stat Bonuses (Optional)
-            </label>
-            <div className="space-y-4">
-              {Object.entries(STAT_CATEGORIES).map(([category, stats]) => (
-                <div key={category}>
-                  <h4 className="text-sm font-medium text-gray-600 dark:text-gray-400 mb-2 capitalize">
-                    {category} Stats
-                  </h4>
-                  <div className="grid grid-cols-2 gap-3">
-                    {stats.map((stat) => (
-                      <div key={stat} className="flex items-center space-x-2">
-                        <label className="text-sm text-gray-700 dark:text-gray-300 capitalize flex-1">
-                          {stat}
-                        </label>
-                        <input
-                          type="number"
-                          min="0"
-                          max="10"
-                          value={formData.stat_rewards[stat] || 0}
-                          onChange={(e) => updateStatReward(stat, parseInt(e.target.value) || 0)}
-                          className="w-16 px-2 py-1 bg-gray-50 dark:bg-slate-700 border border-gray-300 dark:border-slate-600 rounded text-gray-900 dark:text-white text-sm"
-                        />
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              ))}
-            </div>
           </div>
 
           {/* Description */}
