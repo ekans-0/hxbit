@@ -19,6 +19,97 @@ export interface User {
   created_at: string;
 }
 
+export interface UserProfile {
+  id: string;
+  user_id: string;
+  display_name: string | null;
+  bio: string;
+  avatar_url: string | null;
+  banner_url: string | null;
+  location: string | null;
+  website: string | null;
+  privacy_level: 'public' | 'friends' | 'private';
+  show_stats: boolean;
+  show_achievements: boolean;
+  show_activities: boolean;
+  is_online: boolean;
+  last_seen: string;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface Friendship {
+  id: string;
+  user_id: string;
+  friend_id: string;
+  status: 'active' | 'blocked';
+  created_at: string;
+}
+
+export interface FriendRequest {
+  id: string;
+  sender_id: string;
+  receiver_id: string;
+  status: 'pending' | 'accepted' | 'declined';
+  message: string;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface UserBadge {
+  id: string;
+  user_id: string;
+  badge_type: string;
+  badge_name: string;
+  badge_description: string;
+  badge_icon: string;
+  badge_color: string;
+  is_equipped: boolean;
+  earned_at: string;
+}
+
+export interface SocialPost {
+  id: string;
+  user_id: string;
+  content: string;
+  post_type: 'status' | 'achievement' | 'level_up' | 'milestone';
+  metadata: Record<string, any>;
+  privacy_level: 'public' | 'friends' | 'private';
+  likes_count: number;
+  comments_count: number;
+  created_at: string;
+}
+
+export interface PostLike {
+  id: string;
+  post_id: string;
+  user_id: string;
+  created_at: string;
+}
+
+export interface SharedAchievement {
+  id: string;
+  user_id: string;
+  achievement_type: string;
+  achievement_data: Record<string, any>;
+  shared_with: 'public' | 'friends';
+  created_at: string;
+}
+
+export interface LeaderboardEntry {
+  id: string;
+  username: string;
+  display_name: string | null;
+  avatar_url: string | null;
+  level: number;
+  total_xp: number;
+  total_stats: number;
+  completed_tasks: number;
+  competitions_won: number;
+  xp_rank: number;
+  level_rank: number;
+}
+
 export interface Extracurricular {
   id: string;
   user_id: string;

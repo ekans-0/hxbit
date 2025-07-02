@@ -20,6 +20,7 @@ import { CareerExcellenceTab } from './CareerExcellenceTab';
 import { StrategicLearningTab } from './StrategicLearningTab';
 import { ScheduleTab } from './ScheduleTab';
 import { ActivitiesTab } from './ActivitiesTab';
+import { ProfileTab } from './ProfileTab';
 import { Plus, Trophy, Target, Zap } from 'lucide-react';
 import toast from 'react-hot-toast';
 
@@ -140,14 +141,7 @@ export function Dashboard() {
       case 'schedule':
         return <ScheduleTab userId={user!.id} />;
       case 'profile':
-        return (
-          <div className="max-w-4xl mx-auto p-6">
-            <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-6">Profile</h1>
-            <div className="bg-white dark:bg-slate-800 rounded-xl p-6 border border-gray-300 dark:border-slate-700">
-              <p className="text-gray-600 dark:text-gray-400">Profile management coming soon...</p>
-            </div>
-          </div>
-        );
+        return <ProfileTab userId={user!.id} />;
       default:
         return (
           <main className="space-y-8">
