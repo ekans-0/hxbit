@@ -9,8 +9,7 @@ import {
   Moon, 
   LogOut, 
   ChevronLeft,
-  ChevronDown,
-  ChevronUp,
+  ChevronRight,
   Target,
   Calendar,
   BookOpen,
@@ -18,7 +17,8 @@ import {
   Brain,
   Users,
   DollarSign,
-  GraduationCap
+  GraduationCap,
+  Activity
 } from 'lucide-react';
 import { useTheme } from '../contexts/ThemeContext';
 
@@ -32,25 +32,11 @@ interface SidebarProps {
 
 export function Sidebar({ activeTab, setActiveTab, onSignOut, isCollapsed, setIsCollapsed }: SidebarProps) {
   const { isDark, toggleTheme } = useTheme();
-  
-  // State for collapsible sections
-  const [collapsedSections, setCollapsedSections] = useState<Record<string, boolean>>({
-    main: false,
-    activities: false,
-    development: false,
-    system: false
-  });
-
-  const toggleSection = (sectionKey: string) => {
-    setCollapsedSections(prev => ({
-      ...prev,
-      [sectionKey]: !prev[sectionKey]
-    }));
-  };
 
   const navItems = [
     { id: 'dashboard', label: 'Dashboard', icon: Home, category: 'main' },
     { id: 'tasks', label: 'Tasks', icon: Target, category: 'main' },
+    { id: 'activities', label: 'Activities', icon: Activity, category: 'main' },
     { id: 'schedule', label: 'Schedule', icon: Calendar, category: 'main' },
     { id: 'competitions', label: 'Competitions', icon: Trophy, category: 'activities' },
     { id: 'internships', label: 'Internships', icon: Briefcase, category: 'activities' },
@@ -93,7 +79,7 @@ export function Sidebar({ activeTab, setActiveTab, onSignOut, isCollapsed, setIs
       </div>
 
       {/* Navigation - Scrollable Area */}
-      <div className="flex-1 overflow-y-auto overflow-x-hidden">
+      <div className="flex-1 overflow-y-auto overflow-x-hidden scrollbar-thin scrollbar-thumb-gray-300 dark:scrollbar-thumb-slate-600 scrollbar-track-transparent">
         <div className="p-2">
           {Object.entries(categories).map(([categoryKey, categoryLabel]) => (
             <div key={categoryKey} className="mb-6">
@@ -162,29 +148,6 @@ export function Sidebar({ activeTab, setActiveTab, onSignOut, isCollapsed, setIs
           </button>
         </div>
       </div>
-
-      {/* Custom Scrollbar Styles */}
-      <style jsx>{`
-        .scrollbar-custom::-webkit-scrollbar {
-          width: 6px;
-        }
-        .scrollbar-custom::-webkit-scrollbar-track {
-          background: transparent;
-        }
-        .scrollbar-custom::-webkit-scrollbar-thumb {
-          background-color: rgba(156, 163, 175, 0.5);
-          border-radius: 3px;
-        }
-        .scrollbar-custom::-webkit-scrollbar-thumb:hover {
-          background-color: rgba(156, 163, 175, 0.8);
-        }
-        .dark .scrollbar-custom::-webkit-scrollbar-thumb {
-          background-color: rgba(71, 85, 105, 0.5);
-        }
-        .dark .scrollbar-custom::-webkit-scrollbar-thumb:hover {
-          background-color: rgba(71, 85, 105, 0.8);
-        }
-      `}</style>
     </div>
   );
 }

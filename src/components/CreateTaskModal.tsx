@@ -16,14 +16,6 @@ const XP_PRESETS = [
   { label: 'Epic Task', value: 100, description: 'Competition, performance, or major project' },
 ];
 
-const STAT_CATEGORIES = {
-  physical: ['strength', 'agility', 'endurance', 'vitality'],
-  mental: ['intelligence', 'perception', 'sense'],
-  social: ['charisma', 'luck'],
-  general: ['hygiene'],
-  career: ['leadership', 'creativity', 'discipline']
-};
-
 export function CreateTaskModal({ extracurriculars, onClose, onCreate, selectedExtracurricular }: CreateTaskModalProps) {
   const [formData, setFormData] = useState({
     title: '',
@@ -32,7 +24,6 @@ export function CreateTaskModal({ extracurriculars, onClose, onCreate, selectedE
     xp_reward: 25,
     is_required: false,
     due_date: null as string | null,
-    stat_rewards: {} as Record<string, number>
   });
   const [loading, setLoading] = useState(false);
 
@@ -57,16 +48,6 @@ export function CreateTaskModal({ extracurriculars, onClose, onCreate, selectedE
     } finally {
       setLoading(false);
     }
-  };
-
-  const updateStatReward = (stat: string, value: number) => {
-    setFormData(prev => ({
-      ...prev,
-      stat_rewards: {
-        ...prev.stat_rewards,
-        [stat]: value
-      }
-    }));
   };
 
   return (

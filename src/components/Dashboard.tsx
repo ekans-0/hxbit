@@ -19,6 +19,7 @@ import { SocialMasteryTab } from './SocialMasteryTab';
 import { CareerExcellenceTab } from './CareerExcellenceTab';
 import { StrategicLearningTab } from './StrategicLearningTab';
 import { ScheduleTab } from './ScheduleTab';
+import { ActivitiesTab } from './ActivitiesTab';
 import { Plus, Trophy, Target, Zap } from 'lucide-react';
 import toast from 'react-hot-toast';
 
@@ -118,6 +119,8 @@ export function Dashboard() {
             />
           </div>
         );
+      case 'activities':
+        return <ActivitiesTab userId={user!.id} />;
       case 'competitions':
         return <CompetitionsTab userId={user!.id} />;
       case 'internships':
