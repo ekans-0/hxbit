@@ -44,7 +44,7 @@ export function useSocialProfile(userId: string | undefined) {
         .select('id')
         .eq('follower_id', userId)
         .eq('following_id', targetUserId)
-        .single();
+        .maybeSingle();
 
       // Check if this profile is following current user
       const { data: followedByData } = await supabase
@@ -52,7 +52,7 @@ export function useSocialProfile(userId: string | undefined) {
         .select('id')
         .eq('follower_id', targetUserId)
         .eq('following_id', userId)
-        .single();
+        .maybeSingle();
 
       const profileWithStats: ProfileWithStats = {
         ...data,
@@ -78,7 +78,7 @@ export function useSocialProfile(userId: string | undefined) {
           profile:user_profiles(*),
           user_stats(*)
         `)
-        .or(`username.ilike.%${query}%,profile.display_name.ilike.%${query}%`)
+        .ilike('username', `%${query}%`)
         .neq('id', userId)
         .limit(20);
 
@@ -92,14 +92,14 @@ export function useSocialProfile(userId: string | undefined) {
             .select('id')
             .eq('follower_id', userId)
             .eq('following_id', user.id)
-            .single();
+            .maybeSingle();
 
           const { data: followedByData } = await supabase
             .from('follows')
             .select('id')
             .eq('follower_id', user.id)
             .eq('following_id', userId)
-            .single();
+            .maybeSingle();
 
           return {
             ...user,
