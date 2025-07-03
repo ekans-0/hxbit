@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useAuth } from '../hooks/useAuth';
-import { User, Lock, Mail, Zap } from 'lucide-react';
+import { User, Lock, Mail, Zap, ArrowLeft } from 'lucide-react';
 import toast from 'react-hot-toast';
 
 export function Auth() {
@@ -18,7 +18,7 @@ export function Auth() {
     try {
       if (isLogin) {
         await signIn(email, password);
-        toast.success('Welcome back, Hunter!', {
+        toast.success('Welcome back, Player!', {
           icon: '⚡',
           style: {
             background: '#1F2937',
@@ -49,39 +49,48 @@ export function Auth() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900 flex items-center justify-center p-4">
-      {/* Animated background elements */}
-      <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute -top-40 -right-40 w-80 h-80 rounded-full bg-blue-500/10 blur-3xl animate-pulse"></div>
-        <div className="absolute -bottom-40 -left-40 w-80 h-80 rounded-full bg-purple-500/10 blur-3xl animate-pulse delay-700"></div>
+    <div className="min-h-screen bg-black flex items-center justify-center p-4 relative overflow-hidden">
+      {/* Background Effects */}
+      <div className="absolute inset-0">
+        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl animate-pulse"></div>
+        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl animate-pulse delay-1000"></div>
       </div>
 
+      {/* Back to Landing Button */}
+      <a
+        href="/"
+        className="absolute top-6 left-6 flex items-center space-x-2 text-gray-400 hover:text-white transition-colors"
+      >
+        <ArrowLeft className="w-5 h-5" />
+        <span>Back to Home</span>
+      </a>
+
       <div className="relative w-full max-w-md">
-        <div className="bg-slate-800/50 backdrop-blur-xl border border-slate-700 rounded-2xl p-8 shadow-2xl">
+        <div className="bg-gray-900/50 backdrop-blur-xl border border-gray-800 rounded-2xl p-8 shadow-2xl">
           <div className="text-center mb-8">
             <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full mb-4">
               <Zap className="w-8 h-8 text-white" />
             </div>
-            <h1 className="text-3xl font-bold text-white mb-2">Hxbit</h1>
-            <p className="text-slate-400">
-              {isLogin ? 'Welcome back, Hunter!' : 'Begin your leveling journey'}
+            <h1 className="text-3xl font-bold text-white mb-2">HXBIT</h1>
+            <p className="text-gray-400">
+              {isLogin ? 'Welcome back, Player!' : 'Begin your leveling journey'}
             </p>
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-6">
             {!isLogin && (
               <div>
-                <label className="block text-sm font-medium text-slate-300 mb-2">
+                <label className="block text-sm font-medium text-gray-300 mb-2">
                   Username
                 </label>
                 <div className="relative">
-                  <User className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-slate-400" />
+                  <User className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
                   <input
                     type="text"
                     value={username}
                     onChange={(e) => setUsername(e.target.value)}
-                    className="w-full pl-10 pr-4 py-3 bg-slate-700/50 border border-slate-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-white placeholder-slate-400"
-                    placeholder="Choose your hunter name"
+                    className="w-full pl-10 pr-4 py-3 bg-gray-800/50 border border-gray-700 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-white placeholder-gray-400"
+                    placeholder="Choose your player name"
                     required={!isLogin}
                   />
                 </div>
@@ -89,16 +98,16 @@ export function Auth() {
             )}
 
             <div>
-              <label className="block text-sm font-medium text-slate-300 mb-2">
+              <label className="block text-sm font-medium text-gray-300 mb-2">
                 Email
               </label>
               <div className="relative">
-                <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-slate-400" />
+                <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
                 <input
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="w-full pl-10 pr-4 py-3 bg-slate-700/50 border border-slate-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-white placeholder-slate-400"
+                  className="w-full pl-10 pr-4 py-3 bg-gray-800/50 border border-gray-700 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-white placeholder-gray-400"
                   placeholder="Enter your email"
                   required
                 />
@@ -106,16 +115,16 @@ export function Auth() {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-slate-300 mb-2">
+              <label className="block text-sm font-medium text-gray-300 mb-2">
                 Password
               </label>
               <div className="relative">
-                <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-slate-400" />
+                <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
                 <input
                   type="password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="w-full pl-10 pr-4 py-3 bg-slate-700/50 border border-slate-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-white placeholder-slate-400"
+                  className="w-full pl-10 pr-4 py-3 bg-gray-800/50 border border-gray-700 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-white placeholder-gray-400"
                   placeholder="Enter your password"
                   required
                   minLength={6}
@@ -134,12 +143,12 @@ export function Auth() {
                   Processing...
                 </div>
               ) : (
-                isLogin ? 'Enter the Hub' : 'Start Your Journey'
+                isLogin ? 'Enter HXBIT' : 'Start Your Journey'
               )}
             </button>
 
-            <p className="text-center text-slate-400">
-              {isLogin ? "New hunter?" : "Already have an account?"}{' '}
+            <p className="text-center text-gray-400">
+              {isLogin ? "New player?" : "Already have an account?"}{' '}
               <button
                 type="button"
                 onClick={() => setIsLogin(!isLogin)}

@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useAuth } from '../hooks/useAuth';
 import { useProfile } from '../hooks/useProfile';
-import { useFriends } from '../hooks/useFriends';
+import { useSocialProfile } from '../hooks/useSocialProfile';
 import { useSocialFeed } from '../hooks/useSocialFeed';
 import { useLeaderboard } from '../hooks/useLeaderboard';
 import { useUserStats } from '../hooks/useUserStats';
@@ -27,7 +27,11 @@ import {
   Search,
   Heart,
   Share2,
-  MoreHorizontal
+  MoreHorizontal,
+  Camera,
+  UserCheck,
+  UserMinus,
+  Upload
 } from 'lucide-react';
 
 interface ProfileTabProps {
@@ -37,19 +41,27 @@ interface ProfileTabProps {
 export function ProfileTab({ userId }: ProfileTabProps) {
   const { user } = useAuth();
   const { profile, updateProfile } = useProfile(userId);
-  const { friends, friendRequests, sendFriendRequest, acceptFriendRequest, declineFriendRequest, searchUsers } = useFriends(userId);
+  const { 
+    currentProfile, 
+    searchUsers, 
+    followUser, 
+    unfollowUser, 
+    uploadProfilePicture,
+    getFollowers,
+    getFollowing 
+  } = useSocialProfile(userId);
   const { posts, createPost, likePost, unlikePost, shareAchievement } = useSocialFeed(userId);
   const { globalLeaderboard, friendsLeaderboard, userRank } = useLeaderboard(userId);
   const { userStats } = useUserStats(userId);
 
-  const [activeTab, setActiveTab] = useState<'profile' | 'friends' | 'feed' | 'leaderboard'>('profile');
+  const [activeTab, setActiveTab] = useState<'profile' | 'discover' | 'feed' | 'leaderboard'>('profile');
   const [isEditing, setIsEditing] = useState(false);
   const [editForm, setEditForm] = useState({
     display_name: profile?.display_name || '',
     bio: profile?.bio || '',
     location: profile?.location || '',
     website: profile?.website || '',
-    privacy_level: profile?.privacy_level || 'friends',
+    privacy_level: profile?.privacy_level || 'public',
     show_stats: profile?.show_stats || true,
     show_achievements: profile?.show_achievements || true,
     show_activities: profile?.show_activities || true,
@@ -57,7 +69,10 @@ export function ProfileTab({ userId }: ProfileTabProps) {
   const [newPost, setNewPost] = useState('');
   const [searchQuery, setSearchQuery] = useState('');
   const [searchResults, setSearchResults] = useState<any[]>([]);
-  const [friendRequestMessage, setFriendRequestMessage] = useState('');
+  const [followers, setFollowers] = useState<any[]>([]);
+  const [following, setFollowing] = useState<any[]>([]);
+  const [showFollowers, setShowFollowers] = useState(false);
+  const [showFollowing, setShowFollowing] = useState(false);
 
   const handleSaveProfile = async () => {
     try {
@@ -90,6 +105,37 @@ export function ProfileTab({ userId }: ProfileTabProps) {
     }
   };
 
+  const handleFileUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      await uploadProfilePicture(file);
+    }
+  };
+
+  const handleFollowToggle = async (targetUser: any) => {
+    if (targetUser.is_following) {
+      await unfollowUser(targetUser.username);
+    } else {
+      await followUser(targetUser.username);
+    }
+    // Refresh search results
+    if (searchQuery.trim()) {
+      await handleSearch();
+    }
+  };
+
+  const loadFollowers = async () => {
+    const followersList = await getFollowers(userId);
+    setFollowers(followersList);
+    setShowFollowers(true);
+  };
+
+  const loadFollowing = async () => {
+    const followingList = await getFollowing(userId);
+    setFollowing(followingList);
+    setShowFollowing(true);
+  };
+
   const totalStats = userStats ? Object.entries(userStats)
     .filter(([key]) => !['id', 'user_id', 'stat_points', 'created_at', 'updated_at'].includes(key))
     .reduce((sum, [, value]) => sum + (value as number), 0) : 0;
@@ -102,8 +148,27 @@ export function ProfileTab({ userId }: ProfileTabProps) {
         <div className="relative z-10">
           <div className="flex items-start justify-between mb-6">
             <div className="flex items-center space-x-6">
-              <div className="w-24 h-24 bg-white/20 rounded-full flex items-center justify-center">
-                <User className="w-12 h-12 text-white" />
+              <div className="relative">
+                <div className="w-24 h-24 bg-white/20 rounded-full flex items-center justify-center overflow-hidden">
+                  {profile?.profile_picture_url ? (
+                    <img 
+                      src={profile.profile_picture_url} 
+                      alt="Profile" 
+                      className="w-full h-full object-cover"
+                    />
+                  ) : (
+                    <User className="w-12 h-12 text-white" />
+                  )}
+                </div>
+                <label className="absolute bottom-0 right-0 w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center cursor-pointer hover:bg-blue-700 transition-colors">
+                  <Camera className="w-4 h-4 text-white" />
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={handleFileUpload}
+                    className="hidden"
+                  />
+                </label>
               </div>
               <div>
                 <h1 className="text-3xl font-bold">
@@ -136,17 +201,17 @@ export function ProfileTab({ userId }: ProfileTabProps) {
           )}
 
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            <div className="text-center">
-              <p className="text-2xl font-bold">{friends.length}</p>
-              <p className="text-blue-100 text-sm">Friends</p>
-            </div>
+            <button onClick={loadFollowers} className="text-center hover:bg-white/10 rounded-lg p-2 transition-colors">
+              <p className="text-2xl font-bold">{profile?.followers_count || 0}</p>
+              <p className="text-blue-100 text-sm">Followers</p>
+            </button>
+            <button onClick={loadFollowing} className="text-center hover:bg-white/10 rounded-lg p-2 transition-colors">
+              <p className="text-2xl font-bold">{profile?.following_count || 0}</p>
+              <p className="text-blue-100 text-sm">Following</p>
+            </button>
             <div className="text-center">
               <p className="text-2xl font-bold">{totalStats}</p>
               <p className="text-blue-100 text-sm">Total Stats</p>
-            </div>
-            <div className="text-center">
-              <p className="text-2xl font-bold">{userRank?.completed_tasks || 0}</p>
-              <p className="text-blue-100 text-sm">Tasks Done</p>
             </div>
             <div className="text-center">
               <p className="text-2xl font-bold">#{userRank?.xp_rank || '?'}</p>
@@ -219,42 +284,9 @@ export function ProfileTab({ userId }: ProfileTabProps) {
                 className="w-full px-4 py-3 bg-gray-50 dark:bg-slate-700 border border-gray-300 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 dark:text-white"
               >
                 <option value="public">Public</option>
-                <option value="friends">Friends Only</option>
+                <option value="friends">Followers Only</option>
                 <option value="private">Private</option>
               </select>
-            </div>
-          </div>
-
-          <div className="mt-6 space-y-4">
-            <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Privacy Settings</h3>
-            <div className="space-y-3">
-              <label className="flex items-center">
-                <input
-                  type="checkbox"
-                  checked={editForm.show_stats}
-                  onChange={(e) => setEditForm(prev => ({ ...prev, show_stats: e.target.checked }))}
-                  className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500"
-                />
-                <span className="ml-2 text-gray-700 dark:text-gray-300">Show my stats to others</span>
-              </label>
-              <label className="flex items-center">
-                <input
-                  type="checkbox"
-                  checked={editForm.show_achievements}
-                  onChange={(e) => setEditForm(prev => ({ ...prev, show_achievements: e.target.checked }))}
-                  className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500"
-                />
-                <span className="ml-2 text-gray-700 dark:text-gray-300">Show my achievements</span>
-              </label>
-              <label className="flex items-center">
-                <input
-                  type="checkbox"
-                  checked={editForm.show_activities}
-                  onChange={(e) => setEditForm(prev => ({ ...prev, show_activities: e.target.checked }))}
-                  className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500"
-                />
-                <span className="ml-2 text-gray-700 dark:text-gray-300">Show my activities</span>
-              </label>
             </div>
           </div>
 
@@ -278,17 +310,18 @@ export function ProfileTab({ userId }: ProfileTabProps) {
     </div>
   );
 
-  const renderFriendsTab = () => (
+  const renderDiscoverTab = () => (
     <div className="space-y-8">
-      {/* Friend Search */}
+      {/* User Search */}
       <div className="bg-white dark:bg-slate-800 rounded-xl p-6 border border-gray-200 dark:border-slate-700">
-        <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-4">Find Friends</h2>
+        <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-4">Discover Players</h2>
         <div className="flex space-x-3">
           <input
             type="text"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            placeholder="Search by username or email..."
+            onKeyPress={(e) => e.key === 'Enter' && handleSearch()}
+            placeholder="Search by username or display name..."
             className="flex-1 px-4 py-3 bg-gray-50 dark:bg-slate-700 border border-gray-300 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 dark:text-white"
           />
           <button
@@ -301,110 +334,52 @@ export function ProfileTab({ userId }: ProfileTabProps) {
         </div>
 
         {searchResults.length > 0 && (
-          <div className="mt-4 space-y-3">
+          <div className="mt-6 space-y-4">
             {searchResults.map((user) => (
-              <div key={user.id} className="flex items-center justify-between p-3 bg-gray-50 dark:bg-slate-700 rounded-lg">
-                <div className="flex items-center space-x-3">
-                  <div className="w-10 h-10 bg-blue-500 rounded-full flex items-center justify-center">
-                    <User className="w-5 h-5 text-white" />
+              <div key={user.id} className="flex items-center justify-between p-4 bg-gray-50 dark:bg-slate-700 rounded-lg">
+                <div className="flex items-center space-x-4">
+                  <div className="w-12 h-12 bg-blue-500 rounded-full flex items-center justify-center overflow-hidden">
+                    {user.profile?.profile_picture_url ? (
+                      <img 
+                        src={user.profile.profile_picture_url} 
+                        alt="Profile" 
+                        className="w-full h-full object-cover"
+                      />
+                    ) : (
+                      <User className="w-6 h-6 text-white" />
+                    )}
                   </div>
                   <div>
                     <p className="font-semibold text-gray-900 dark:text-white">
                       {user.profile?.display_name || user.username}
                     </p>
                     <p className="text-sm text-gray-600 dark:text-gray-400">@{user.username}</p>
+                    <div className="flex items-center space-x-4 text-xs text-gray-500 dark:text-gray-400">
+                      <span>Level {user.level}</span>
+                      <span>{user.total_xp?.toLocaleString()} XP</span>
+                    </div>
                   </div>
                 </div>
                 <button
-                  onClick={() => sendFriendRequest(user.username, friendRequestMessage)}
-                  className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg flex items-center space-x-2 transition-colors"
+                  onClick={() => handleFollowToggle(user)}
+                  className={`px-4 py-2 rounded-lg flex items-center space-x-2 transition-colors ${
+                    user.is_following
+                      ? 'bg-gray-200 dark:bg-slate-600 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-slate-500'
+                      : 'bg-blue-600 hover:bg-blue-700 text-white'
+                  }`}
                 >
-                  <UserPlus className="w-4 h-4" />
-                  <span>Add Friend</span>
+                  {user.is_following ? (
+                    <>
+                      <UserMinus className="w-4 h-4" />
+                      <span>Unfollow</span>
+                    </>
+                  ) : (
+                    <>
+                      <UserPlus className="w-4 h-4" />
+                      <span>Follow</span>
+                    </>
+                  )}
                 </button>
-              </div>
-            ))}
-          </div>
-        )}
-      </div>
-
-      {/* Friend Requests */}
-      {friendRequests.length > 0 && (
-        <div className="bg-white dark:bg-slate-800 rounded-xl p-6 border border-gray-200 dark:border-slate-700">
-          <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-4">Friend Requests</h2>
-          <div className="space-y-3">
-            {friendRequests.map((request) => (
-              <div key={request.id} className="flex items-center justify-between p-4 bg-gray-50 dark:bg-slate-700 rounded-lg">
-                <div className="flex items-center space-x-3">
-                  <div className="w-12 h-12 bg-blue-500 rounded-full flex items-center justify-center">
-                    <User className="w-6 h-6 text-white" />
-                  </div>
-                  <div>
-                    <p className="font-semibold text-gray-900 dark:text-white">
-                      {request.sender.profile?.display_name || request.sender.username}
-                    </p>
-                    <p className="text-sm text-gray-600 dark:text-gray-400">@{request.sender.username}</p>
-                    {request.message && (
-                      <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">"{request.message}"</p>
-                    )}
-                  </div>
-                </div>
-                <div className="flex space-x-2">
-                  <button
-                    onClick={() => acceptFriendRequest(request.id)}
-                    className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg transition-colors"
-                  >
-                    Accept
-                  </button>
-                  <button
-                    onClick={() => declineFriendRequest(request.id)}
-                    className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg transition-colors"
-                  >
-                    Decline
-                  </button>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      )}
-
-      {/* Friends List */}
-      <div className="bg-white dark:bg-slate-800 rounded-xl p-6 border border-gray-200 dark:border-slate-700">
-        <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-4">
-          Friends ({friends.length})
-        </h2>
-        {friends.length === 0 ? (
-          <div className="text-center py-8">
-            <Users className="w-16 h-16 text-gray-400 mx-auto mb-4" />
-            <p className="text-gray-600 dark:text-gray-400">No friends yet. Start by searching for users above!</p>
-          </div>
-        ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {friends.map((friend) => (
-              <div key={friend.id} className="p-4 bg-gray-50 dark:bg-slate-700 rounded-lg">
-                <div className="flex items-center space-x-3 mb-3">
-                  <div className="w-12 h-12 bg-blue-500 rounded-full flex items-center justify-center">
-                    <User className="w-6 h-6 text-white" />
-                  </div>
-                  <div>
-                    <p className="font-semibold text-gray-900 dark:text-white">
-                      {friend.profile?.display_name || friend.username}
-                    </p>
-                    <p className="text-sm text-gray-600 dark:text-gray-400">@{friend.username}</p>
-                  </div>
-                </div>
-                <div className="flex items-center justify-between text-sm">
-                  <div className="flex items-center space-x-4">
-                    <span className="text-gray-600 dark:text-gray-400">
-                      Level {friend.level}
-                    </span>
-                    <span className="text-gray-600 dark:text-gray-400">
-                      {friend.total_xp.toLocaleString()} XP
-                    </span>
-                  </div>
-                  <div className={`w-2 h-2 rounded-full ${friend.profile?.is_online ? 'bg-green-500' : 'bg-gray-400'}`}></div>
-                </div>
               </div>
             ))}
           </div>
@@ -462,8 +437,16 @@ export function ProfileTab({ userId }: ProfileTabProps) {
             <div key={post.id} className="bg-white dark:bg-slate-800 rounded-xl p-6 border border-gray-200 dark:border-slate-700">
               <div className="flex items-start justify-between mb-4">
                 <div className="flex items-center space-x-3">
-                  <div className="w-10 h-10 bg-blue-500 rounded-full flex items-center justify-center">
-                    <User className="w-5 h-5 text-white" />
+                  <div className="w-10 h-10 bg-blue-500 rounded-full flex items-center justify-center overflow-hidden">
+                    {post.user.profile?.profile_picture_url ? (
+                      <img 
+                        src={post.user.profile.profile_picture_url} 
+                        alt="Profile" 
+                        className="w-full h-full object-cover"
+                      />
+                    ) : (
+                      <User className="w-5 h-5 text-white" />
+                    )}
                   </div>
                   <div>
                     <p className="font-semibold text-gray-900 dark:text-white">
@@ -538,17 +521,10 @@ export function ProfileTab({ userId }: ProfileTabProps) {
         </div>
       )}
 
-      {/* Leaderboard Tabs */}
+      {/* Leaderboard */}
       <div className="bg-white dark:bg-slate-800 rounded-xl border border-gray-200 dark:border-slate-700">
-        <div className="border-b border-gray-200 dark:border-slate-700">
-          <div className="flex space-x-8 px-6">
-            <button className="py-4 border-b-2 border-blue-600 text-blue-600 font-medium">
-              Global
-            </button>
-            <button className="py-4 border-b-2 border-transparent text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white font-medium">
-              Friends
-            </button>
-          </div>
+        <div className="border-b border-gray-200 dark:border-slate-700 p-6">
+          <h2 className="text-xl font-bold text-gray-900 dark:text-white">Global Leaderboard</h2>
         </div>
 
         <div className="p-6">
@@ -566,8 +542,16 @@ export function ProfileTab({ userId }: ProfileTabProps) {
                   }`}>
                     {index + 1}
                   </div>
-                  <div className="w-10 h-10 bg-blue-500 rounded-full flex items-center justify-center">
-                    <User className="w-5 h-5 text-white" />
+                  <div className="w-10 h-10 bg-blue-500 rounded-full flex items-center justify-center overflow-hidden">
+                    {entry.avatar_url ? (
+                      <img 
+                        src={entry.avatar_url} 
+                        alt="Profile" 
+                        className="w-full h-full object-cover"
+                      />
+                    ) : (
+                      <User className="w-5 h-5 text-white" />
+                    )}
                   </div>
                   <div>
                     <p className="font-semibold text-gray-900 dark:text-white">
@@ -588,6 +572,83 @@ export function ProfileTab({ userId }: ProfileTabProps) {
     </div>
   );
 
+  // Followers/Following Modals
+  const renderFollowersModal = () => (
+    showFollowers && (
+      <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4 z-50">
+        <div className="bg-white dark:bg-slate-800 rounded-xl w-full max-w-md max-h-[80vh] overflow-hidden">
+          <div className="flex items-center justify-between p-4 border-b border-gray-200 dark:border-slate-700">
+            <h3 className="text-lg font-bold text-gray-900 dark:text-white">Followers</h3>
+            <button onClick={() => setShowFollowers(false)} className="text-gray-400 hover:text-gray-600">
+              <X className="w-5 h-5" />
+            </button>
+          </div>
+          <div className="p-4 overflow-y-auto max-h-96">
+            {followers.map((follower) => (
+              <div key={follower.id} className="flex items-center space-x-3 py-3">
+                <div className="w-10 h-10 bg-blue-500 rounded-full flex items-center justify-center overflow-hidden">
+                  {follower.profile?.profile_picture_url ? (
+                    <img 
+                      src={follower.profile.profile_picture_url} 
+                      alt="Profile" 
+                      className="w-full h-full object-cover"
+                    />
+                  ) : (
+                    <User className="w-5 h-5 text-white" />
+                  )}
+                </div>
+                <div>
+                  <p className="font-medium text-gray-900 dark:text-white">
+                    {follower.profile?.display_name || follower.username}
+                  </p>
+                  <p className="text-sm text-gray-600 dark:text-gray-400">@{follower.username}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    )
+  );
+
+  const renderFollowingModal = () => (
+    showFollowing && (
+      <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4 z-50">
+        <div className="bg-white dark:bg-slate-800 rounded-xl w-full max-w-md max-h-[80vh] overflow-hidden">
+          <div className="flex items-center justify-between p-4 border-b border-gray-200 dark:border-slate-700">
+            <h3 className="text-lg font-bold text-gray-900 dark:text-white">Following</h3>
+            <button onClick={() => setShowFollowing(false)} className="text-gray-400 hover:text-gray-600">
+              <X className="w-5 h-5" />
+            </button>
+          </div>
+          <div className="p-4 overflow-y-auto max-h-96">
+            {following.map((followedUser) => (
+              <div key={followedUser.id} className="flex items-center space-x-3 py-3">
+                <div className="w-10 h-10 bg-blue-500 rounded-full flex items-center justify-center overflow-hidden">
+                  {followedUser.profile?.profile_picture_url ? (
+                    <img 
+                      src={followedUser.profile.profile_picture_url} 
+                      alt="Profile" 
+                      className="w-full h-full object-cover"
+                    />
+                  ) : (
+                    <User className="w-5 h-5 text-white" />
+                  )}
+                </div>
+                <div>
+                  <p className="font-medium text-gray-900 dark:text-white">
+                    {followedUser.profile?.display_name || followedUser.username}
+                  </p>
+                  <p className="text-sm text-gray-600 dark:text-gray-400">@{followedUser.username}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    )
+  );
+
   return (
     <div className="space-y-8">
       {/* Header */}
@@ -599,7 +660,7 @@ export function ProfileTab({ userId }: ProfileTabProps) {
           Profile & Social
         </h1>
         <p className="text-gray-600 dark:text-gray-400">
-          Manage your profile, connect with friends, and share your achievements
+          Manage your profile, connect with players, and share your achievements
         </p>
       </div>
 
@@ -608,7 +669,7 @@ export function ProfileTab({ userId }: ProfileTabProps) {
         <div className="flex space-x-8 px-6 border-b border-gray-200 dark:border-slate-700">
           {[
             { id: 'profile', label: 'Profile', icon: User },
-            { id: 'friends', label: 'Friends', icon: Users },
+            { id: 'discover', label: 'Discover', icon: Search },
             { id: 'feed', label: 'Social Feed', icon: MessageSquare },
             { id: 'leaderboard', label: 'Leaderboard', icon: Trophy },
           ].map((tab) => {
@@ -632,11 +693,15 @@ export function ProfileTab({ userId }: ProfileTabProps) {
 
         <div className="p-6">
           {activeTab === 'profile' && renderProfileTab()}
-          {activeTab === 'friends' && renderFriendsTab()}
+          {activeTab === 'discover' && renderDiscoverTab()}
           {activeTab === 'feed' && renderFeedTab()}
           {activeTab === 'leaderboard' && renderLeaderboardTab()}
         </div>
       </div>
+
+      {/* Modals */}
+      {renderFollowersModal()}
+      {renderFollowingModal()}
     </div>
   );
 }

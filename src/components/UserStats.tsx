@@ -13,32 +13,32 @@ export function UserStats({ user, extracurriculars, tasks }: UserStatsProps) {
   const progressPercentage = (currentLevelXp / 500) * 100;
 
   const completedTasks = tasks.filter(task => task.completed);
-  completedTasks.reduce((sum, task) => sum + task.xp_reward, 0);
+  
   return (
-    <div className="bg-gradient-to-r from-white to-gray-50 dark:from-slate-800/50 dark:to-slate-800/30 backdrop-blur-xl border border-gray-200 dark:border-slate-700 rounded-2xl p-8 mb-8">
+    <div className="bg-gradient-to-r from-gray-900 to-black border border-gray-800 rounded-2xl p-8 mb-8">
       <div className="flex items-center justify-between mb-6">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
-            Welcome back, {user.username}!
+          <h1 className="text-3xl font-bold text-white mb-2">
+            Welcome, Player {user.username}
           </h1>
-          <p className="text-gray-600 dark:text-slate-400">Ready to level up your skills?</p>
+          <p className="text-gray-400">Ready to level up your skills?</p>
         </div>
         <div className="text-right">
           <div className="flex items-center mb-2">
-            <Star className="w-8 h-8 text-yellow-500 dark:text-yellow-400 mr-2" />
-            <span className="text-3xl font-bold text-gray-900 dark:text-white">Level {user.level}</span>
+            <Star className="w-8 h-8 text-yellow-400 mr-2" />
+            <span className="text-3xl font-bold text-white">Level {user.level}</span>
           </div>
-          <p className="text-gray-600 dark:text-slate-400">{xpToNextLevel} XP to next level</p>
+          <p className="text-gray-400">{xpToNextLevel} XP to next level</p>
         </div>
       </div>
 
       {/* XP Progress Bar */}
       <div className="mb-6">
         <div className="flex items-center justify-between mb-2">
-          <span className="text-sm font-medium text-gray-700 dark:text-slate-300">Level Progress</span>
-          <span className="text-sm text-gray-600 dark:text-slate-400">{currentLevelXp} / 500 XP</span>
+          <span className="text-sm font-medium text-gray-300">Level Progress</span>
+          <span className="text-sm text-gray-400">{currentLevelXp} / 500 XP</span>
         </div>
-        <div className="w-full bg-gray-200 dark:bg-slate-700 rounded-full h-4 overflow-hidden">
+        <div className="w-full bg-gray-800 rounded-full h-4 overflow-hidden">
           <div
             className="h-full bg-gradient-to-r from-blue-500 to-purple-500 rounded-full transition-all duration-1000 ease-out relative"
             style={{ width: `${progressPercentage}%` }}
@@ -52,36 +52,36 @@ export function UserStats({ user, extracurriculars, tasks }: UserStatsProps) {
       <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
         <div className="text-center">
           <div className="flex items-center justify-center w-12 h-12 bg-blue-500/20 rounded-full mx-auto mb-3">
-            <Zap className="w-6 h-6 text-blue-600 dark:text-blue-400" />
+            <Zap className="w-6 h-6 text-blue-400" />
           </div>
-          <p className="text-2xl font-bold text-gray-900 dark:text-white">{user.total_xp.toLocaleString()}</p>
-          <p className="text-sm text-gray-600 dark:text-slate-400">Total XP</p>
+          <p className="text-2xl font-bold text-white">{user.total_xp.toLocaleString()}</p>
+          <p className="text-sm text-gray-400">Total XP</p>
         </div>
 
         <div className="text-center">
           <div className="flex items-center justify-center w-12 h-12 bg-green-500/20 rounded-full mx-auto mb-3">
-            <Trophy className="w-6 h-6 text-green-600 dark:text-green-400" />
+            <Trophy className="w-6 h-6 text-green-400" />
           </div>
-          <p className="text-2xl font-bold text-gray-900 dark:text-white">{extracurriculars.length}</p>
-          <p className="text-sm text-gray-600 dark:text-slate-400">Activities</p>
+          <p className="text-2xl font-bold text-white">{extracurriculars.length}</p>
+          <p className="text-sm text-gray-400">Activities</p>
         </div>
 
         <div className="text-center">
           <div className="flex items-center justify-center w-12 h-12 bg-purple-500/20 rounded-full mx-auto mb-3">
-            <Target className="w-6 h-6 text-purple-600 dark:text-purple-400" />
+            <Target className="w-6 h-6 text-purple-400" />
           </div>
-          <p className="text-2xl font-bold text-gray-900 dark:text-white">{completedTasks.length}</p>
-          <p className="text-sm text-gray-600 dark:text-slate-400">Tasks Done</p>
+          <p className="text-2xl font-bold text-white">{completedTasks.length}</p>
+          <p className="text-sm text-gray-400">Tasks Done</p>
         </div>
 
         <div className="text-center">
           <div className="flex items-center justify-center w-12 h-12 bg-yellow-500/20 rounded-full mx-auto mb-3">
-            <Star className="w-6 h-6 text-yellow-600 dark:text-yellow-400" />
+            <Star className="w-6 h-6 text-yellow-400" />
           </div>
-          <p className="text-2xl font-bold text-gray-900 dark:text-white">
+          <p className="text-2xl font-bold text-white">
             {extracurriculars.reduce((sum, e) => sum + e.level, 0)}
           </p>
-          <p className="text-sm text-gray-600 dark:text-slate-400">Total Levels</p>
+          <p className="text-sm text-gray-400">Total Levels</p>
         </div>
       </div>
     </div>
