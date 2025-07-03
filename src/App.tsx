@@ -1,3 +1,4 @@
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { useAuth } from './hooks/useAuth';
 import { Auth } from './components/Auth';
 import { Dashboard } from './components/Dashboard';
@@ -21,30 +22,22 @@ function App() {
     );
   }
 
-  // Show landing page if not authenticated
-  if (!session) {
-    return (
-      <ThemeProvider>
-        <LandingPage />
-        <Toaster 
-          position="top-right"
-          toastOptions={{
-            duration: 3000,
-            style: {
-              background: '#1F2937',
-              color: '#FFFFFF',
-              border: '1px solid #374151',
-            },
-          }}
-        />
-      </ThemeProvider>
-    );
-  }
-
-  // Show dashboard if authenticated
   return (
     <ThemeProvider>
-      <Dashboard />
+      <Router>
+        <Routes>
+          <Route path="/" element={<LandingPage />} />
+          <Route
+            path="/dashboard"
+            element={session ? <Dashboard /> : <Navigate to="/auth" replace />}
+          />
+          <Route
+            path="/auth"
+            element={!session ? <Auth /> : <Navigate to="/dashboard" replace />}
+          />
+        </Routes>
+      </Router>
+
       <Toaster 
         position="top-right"
         toastOptions={{
