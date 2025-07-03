@@ -11,7 +11,6 @@ import {
   CheckCircle2,
   Clock,
   Zap,
-  Briefcase,
   TrendingUp
 } from 'lucide-react';
 

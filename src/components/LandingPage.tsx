@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
 import { 
   Zap, 
@@ -101,19 +102,17 @@ export function LandingPage() {
                 {loading ? (
                   <div className="w-20 h-10 bg-gray-800 rounded-lg animate-pulse"></div>
                 ) : session ? (
-                  <a
-                    href="/dashboard"
+                  <Link to="/dashboard"
                     className="bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white px-6 py-2 rounded-lg font-medium transition-all duration-200 transform hover:scale-105"
                   >
                     Open HXBIT
-                  </a>
+                  </Link>
                 ) : (
-                  <a
-                    href="/auth"
+                  <Link to="/auth"
                     className="bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white px-6 py-2 rounded-lg font-medium transition-all duration-200 transform hover:scale-105"
                   >
                     Login
-                  </a>
+                  </Link>
                 )}
               </div>
             </div>
@@ -144,19 +143,17 @@ export function LandingPage() {
                 {loading ? (
                   <div className="w-full h-10 bg-gray-800 rounded-lg animate-pulse"></div>
                 ) : session ? (
-                  <a
-                    href="/dashboard"
+                  <Link to="/dashboard"
                     className="block w-full text-center bg-gradient-to-r from-blue-600 to-blue-700 text-white px-4 py-2 rounded-lg font-medium"
                   >
                     Open HXBIT
-                  </a>
+                  </Link>
                 ) : (
-                  <a
-                    href="/auth"
+                  <Link to="/auth"
                     className="block w-full text-center bg-gradient-to-r from-blue-600 to-blue-700 text-white px-4 py-2 rounded-lg font-medium"
                   >
                     Login
-                  </a>
+                  </Link>
                 )}
               </div>
             </div>
@@ -184,22 +181,21 @@ export function LandingPage() {
             
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12">
               {session ? (
-                <a
-                  href="/dashboard"
+                <Link
+                    to="/dashboard"
                   className="bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white px-8 py-4 rounded-xl font-semibold text-lg transition-all duration-200 transform hover:scale-105 flex items-center"
                 >
                   Continue Your Journey
                   <ArrowRight className="ml-2 w-5 h-5" />
-                </a>
+                </Link>
               ) : (
                 <>
-                  <a
-                    href="/auth"
+                  <Link to="/auth"
                     className="bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white px-8 py-4 rounded-xl font-semibold text-lg transition-all duration-200 transform hover:scale-105 flex items-center"
                   >
                     Start Your Journey
                     <ArrowRight className="ml-2 w-5 h-5" />
-                  </a>
+                  </Link>
                   <a
                     href="#features"
                     className="border border-gray-600 hover:border-gray-500 text-gray-300 hover:text-white px-8 py-4 rounded-xl font-semibold text-lg transition-all duration-200"
@@ -315,21 +311,19 @@ export function LandingPage() {
           </p>
           
           {session ? (
-            <a
-              href="/dashboard"
+            <Link to="/dashboard"
               className="inline-flex items-center bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white px-8 py-4 rounded-xl font-semibold text-lg transition-all duration-200 transform hover:scale-105"
             >
               Continue Your Journey
               <ArrowRight className="ml-2 w-5 h-5" />
-            </a>
+            </Link>
           ) : (
-            <a
-              href="/auth"
+            <Link to="/auth"
               className="inline-flex items-center bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white px-8 py-4 rounded-xl font-semibold text-lg transition-all duration-200 transform hover:scale-105"
             >
               Start Your Journey
               <ArrowRight className="ml-2 w-5 h-5" />
-            </a>
+            </Link>
           )}
         </div>
       </section>
