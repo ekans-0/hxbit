@@ -1,198 +1,283 @@
-# 🧙‍♂️ Hxbit — The Solo Leveling-Inspired Extracurricular RPG 🎮
+# 🧙‍♂️ HXBIT — The Ultimate Life RPG Platform 🎮
 
-Welcome to **Hxbit** — a gamified, dark-themed, fully-featured platform that transforms real-life extracurriculars into an epic RPG adventure. Track your progress, earn XP, complete tasks, and level up like you're the main character in *Solo Leveling*. Here, you're not only building habits that stick, but also life skills, extracurricular success, and winning in an IRL RPG system.
-
----
-
-## 🌟 Features at a Glance
-
-### 🎮 Core Gamification
-- 🔄 **XP & Leveling**: Earn XP from tasks, competitions, internships, and self-growth.
-- 🏆 **Achievements**: Foundation for unlockable rewards.
-- 🧠 **RPG Stats**: Strength, Agility, Perception, Endurance, Luck, Hygiene, etc.
-- ⚔️ **Level-Up Celebrations**: Glowing progress bars, animated XP counters.
-- 🏋 **Fitness and Self Improvement**: Level up your physical stats like a videogame with attribute points.
-
-### 🧰 Activity Management
-- ✅ **Tasks**: Create, complete, and gain XP.
-- 📊 **Real-Time Feedback**: XP bars, level indicators, live updates.
-- 📚 **Extracurriculars**: Dynamically create/manage multiple activities.
-- 📈 **Internships**: Actively log internship hours, time commitments, and success.
-- 🥇 **Competitions**: Quickly log wins, results, prizes, and competition attendances.
-- 💪 **Fitness**: Add self-improvement to mental, physical, and emotional health, and level up stat bars.
-
-### 💼 Career & Competitions
-- 🥇 **Competitions Tab**: Track medals, ranks, dates, and more.
-- 💻 **Internships Tab**: Log companies, durations, roles, and skill gains.
-- 🧲 **Self Improvement Tab**: Log health and physical attribute growth.
-- 🧑‍💻 **Profile Tab**: Coming soon....
-
-
-### 🧘 Self-Improvement System
-- 📈 **10 Attributes**: Strength, Agility, Intelligence, Vitality, Sense, Charisma, Luck, Endurance, Hygiene, Perception.
-- 🎯 **Stat Points**: Earn points from XP and spend to improve personal attributes.
-- 🔓 **Mastery Progress**: Track mastery over your life stats.
-
-### 💻 Tech Stack
-- **Frontend**: React + TypeScript + TailwindCSS
-- **Backend**: Supabase (Auth + Realtime DB)
-- **Styling**: Glassmorphism + glowing effects + animated UI
-- **Deployment**: Vite
+Welcome to **HXBIT** — a comprehensive, gamified platform that transforms real-life activities into an engaging RPG experience. Track your progress, earn XP, compete with friends, and become the best version of yourself through systematic personal development.
 
 ---
 
-## 🖼️ Aesthetic Design
+## 🌟 Features Overview
 
-| Feature | Description |
-|--------|-------------|
-| 🎨 **Dark Theme** | Inspired by Solo Leveling’s electric visuals |
-| 🌘 **Dark/Light Mode** | Toggle with persistent preferences |
-| 💎 **Colors** | `#00D4FF` (Electric Blue), `#8B5CF6` (Purple), `#F59E0B` (Gold) |
-| 🖼️ **Modern UI** | Responsive card-based layout, glowing borders |
-| ✨ **Particles & Animations** | Subtle hover and background effects |
+### 🎮 Core Gamification System
+- **XP & Leveling**: Earn experience points from tasks, competitions, internships, and personal development
+- **Character Stats**: 13 different attributes including Strength, Agility, Intelligence, Charisma, Leadership, and more
+- **Level Progression**: Visual progress bars, animated XP counters, and level-up celebrations
+- **Achievement System**: Unlock badges and share milestones with your network
+- **Stat Point Allocation**: Spend earned points to upgrade your real-life attributes
+
+### 🧰 Activity & Task Management
+- **Dynamic Task Creation**: Create, complete, and track tasks across multiple life areas
+- **Extracurricular Activities**: Organize tasks under different activity categories
+- **Required Tasks**: Set mandatory tasks with XP penalties for missed deadlines
+- **Due Date Tracking**: Visual indicators for overdue and upcoming tasks
+- **Quick Task Templates**: Pre-built task suggestions for different development areas
+
+### 💼 Professional Development
+- **Competition Tracker**: Log competitive achievements, placements, and victories
+- **Internship Management**: Track professional experience, skills gained, and career progression
+- **Career Excellence**: Dedicated section for professional development tasks
+- **Strategic Learning**: Systematic skill acquisition and knowledge tracking
+
+### 🏋️ Personal Development Areas
+- **Physical Development**: Fitness, nutrition, and body optimization tracking
+- **Mental Performance**: Cognitive enhancement, learning, and focus improvement
+- **Social Mastery**: Communication skills, networking, and relationship building
+- **Character Stats**: RPG-style attribute system with real-world benefits
+
+### 📅 Schedule & Planning
+- **Smart Scheduling**: Plan your day with integrated task and activity scheduling
+- **Schedule Templates**: Pre-built routines for morning, study, and evening schedules
+- **Event Management**: Link tasks and internships to calendar events
+- **Time Tracking**: Monitor duration and productivity across different activities
+
+### 👥 Social & Community Features
+- **Profile System**: Customizable profiles with display names, bios, and profile pictures
+- **Follow System**: Connect with other players and build your network
+- **Social Feed**: Share achievements, level-ups, and progress updates
+- **Global Leaderboards**: Compete on XP, level, and task completion rankings
+- **Discovery**: Find and connect with other players through search
+- **Privacy Controls**: Manage who can see your stats and activities
+
+### 🔒 Security & Privacy
+- **Row-Level Security**: Database-level security ensuring users only access their own data
+- **Privacy Levels**: Public, friends-only, and private visibility options
+- **Secure Authentication**: Email/password authentication with Supabase
+- **Data Protection**: Enterprise-grade security for all user information
 
 ---
 
-## 🛠️ Getting Started
+## 🛠️ Technical Architecture
 
-### 1️⃣ Clone the Repository
+### Frontend Stack
+- **React 18** with TypeScript for type-safe development
+- **Tailwind CSS** for responsive, modern styling
+- **Lucide React** for consistent iconography
+- **React Hot Toast** for user notifications
+- **Vite** for fast development and building
 
+### Backend & Database
+- **Supabase** for authentication, database, and real-time features
+- **PostgreSQL** with advanced features like RLS and triggers
+- **Real-time subscriptions** for live updates
+- **Edge functions** for serverless backend logic
+
+### Design System
+- **Dark Theme**: Black backgrounds with blue accent colors
+- **Responsive Design**: Mobile-first approach with desktop optimization
+- **Modern UI**: Glassmorphism effects, smooth animations, and micro-interactions
+- **Accessibility**: WCAG compliant with proper contrast ratios
+
+---
+
+## 🎨 Design Philosophy
+
+HXBIT follows a **dark, ultra-modern aesthetic** inspired by premium SaaS platforms:
+
+- **Color Palette**: Black backgrounds, blue primary colors, with gold, purple, green, and orange accents
+- **Typography**: Inter font family for consistent, readable text
+- **Layout**: Card-based design with proper spacing and visual hierarchy
+- **Animations**: Subtle transitions and hover effects for enhanced UX
+- **Responsiveness**: Fluid layouts that work across all device sizes
+
+---
+
+## 📊 Database Schema
+
+### Core Tables
+- **users**: Player profiles with level and XP tracking
+- **user_profiles**: Extended profile information and privacy settings
+- **user_stats**: RPG-style character attributes and stat points
+- **extracurriculars**: Activity categories for organizing tasks
+- **tasks**: Individual objectives with XP rewards and completion tracking
+
+### Professional Development
+- **competitions**: Competitive achievements and placements
+- **internships**: Professional experience and skill tracking
+- **schedule_events**: Calendar integration and time management
+
+### Social Features
+- **follows**: Player connections and networking
+- **social_posts**: Achievement sharing and status updates
+- **post_likes**: Social engagement tracking
+- **global_leaderboards**: Ranking and competition views
+
+---
+
+## 🚀 Getting Started
+
+### Prerequisites
+- Node.js 18+ and npm
+- Supabase account and project
+
+### Installation
+
+1. **Clone the repository**
 ```bash
-git clone https://github.com/your-username/extracurrihub.git
-cd extracurrihub
-````
+git clone https://github.com/your-username/hxbit.git
+cd hxbit
+```
 
-### 2️⃣ Install Dependencies
-
+2. **Install dependencies**
 ```bash
 npm install
 ```
 
-### 3️⃣ Configure Supabase
-
-* Create a project at [https://supabase.com](https://supabase.com)
-* Copy your Supabase URL and public anon key to `.env`:
-
+3. **Configure environment variables**
 ```bash
 cp .env.example .env
 ```
-
-Update your `.env`:
-
+Update `.env` with your Supabase credentials:
 ```
 VITE_SUPABASE_URL=your-supabase-url
 VITE_SUPABASE_ANON_KEY=your-anon-key
 ```
 
-### 4️⃣ Apply Supabase Migrations
+4. **Set up the database**
+Run the migration files in your Supabase SQL editor:
+- `supabase/migrations/20250622203040_crystal_leaf.sql`
+- `supabase/migrations/20250622204243_graceful_disk.sql`
+- `supabase/migrations/20250702013448_crystal_waterfall.sql`
+- `supabase/migrations/20250702014426_round_truth.sql`
+- `supabase/migrations/20250703113527_calm_flower.sql`
 
-Use the following SQL files:
-
-* `supabase/migrations/create_tables.sql`
-* `supabase/migrations/enhanced_schema.sql`
-
-You can run these directly in Supabase's SQL editor.
-
-### 5️⃣ Start the Dev Server
-
+5. **Start the development server**
 ```bash
 npm run dev
 ```
 
 ---
 
-## 🧩 Project Structure
+## 🎯 Key Features in Detail
 
-```
-📁 src/
-├── lib/                # Supabase client
-├── hooks/              # Custom React hooks
-├── components/         # UI components
-│   ├── Dashboard.tsx
-│   ├── Auth.tsx
-│   ├── ExtracurricularCard.tsx
-│   ├── TaskList.tsx
-│   ├── CreateTaskModal.tsx
-│   ├── SelfImprovementTab.tsx
-│   ├── CompetitionsTab.tsx
-│   ├── InternshipsTab.tsx
-│   └── ...
-├── contexts/           # Theme context
-├── App.tsx             # Main app shell
-└── index.html
-```
+### Landing Page
+- **Modern Design**: Dark theme with blue accents and gradient effects
+- **Feature Showcase**: Comprehensive overview of platform capabilities
+- **Social Proof**: Testimonials and usage statistics
+- **Auth-Aware Navigation**: Dynamic login/dashboard buttons based on user state
+- **Responsive Layout**: Optimized for all screen sizes
 
----
+### Dashboard System
+- **Unified Overview**: Character stats, activity progress, and quick actions
+- **Modular Navigation**: Sidebar with categorized sections
+- **Real-time Updates**: Live XP tracking and level progression
+- **Quick Actions**: Fast access to common tasks and features
 
-## 🧠 RPG Stat System Overview
+### Social Platform
+- **Player Discovery**: Search and connect with other users
+- **Follow System**: Build your network and track friends' progress
+- **Achievement Sharing**: Celebrate milestones with your community
+- **Leaderboard Competition**: Global and friends-only rankings
+- **Privacy Controls**: Manage visibility of your profile and activities
 
-| Attribute    | Description                   |
-| ------------ | ----------------------------- |
-| Strength     | Physical prowess              |
-| Agility      | Speed and reflex              |
-| Intelligence | Cognitive skills              |
-| Vitality     | Stamina and resilience        |
-| Sense        | Awareness and intuition       |
-| Charisma     | Leadership and persuasion     |
-| Luck         | Affects chance-based events   |
-| Endurance    | Ability to withstand pressure |
-| Hygiene      | Health and self-maintenance   |
-| Perception   | Attention to detail           |
-
-Earn stat points as you complete tasks and progress in competitions/internships. Redeem them in the **Self-Improvement Tab**.
+### Character Development
+- **13 Stat Categories**: Comprehensive attribute system covering all life areas
+- **Stat Point Economy**: Earn and spend points through activity completion
+- **Visual Progress**: Progress bars and level indicators for each attribute
+- **Real-world Benefits**: Each stat provides tangible life improvements
 
 ---
 
-## 📊 Roadmap
+## 🔧 Development Features
 
-* [x] Real-time XP + Leveling
-* [x] Self-improvement with RPG attributes
-* [x] Competition and Internship tabs
-* [x] Responsive card layout with modals
-* [x] Dark/Light mode toggle
-* [ ] Achievements system (Tiered)
-* [ ] Friends / Leaderboard
-* [ ] Mobile app version (React Native)
+### Code Organization
+- **Modular Architecture**: Clean separation of concerns across components
+- **Custom Hooks**: Reusable logic for data fetching and state management
+- **Type Safety**: Full TypeScript coverage for reliable development
+- **Component Library**: Consistent UI components across the platform
+
+### Performance Optimizations
+- **Lazy Loading**: Code splitting for faster initial load times
+- **Optimistic Updates**: Immediate UI feedback for better UX
+- **Efficient Queries**: Optimized database queries with proper indexing
+- **Caching Strategy**: Smart data caching for improved performance
 
 ---
 
-## 🧪 Testing
+## 🎮 Usage Examples
 
-You can test features like:
+### Creating Your First Activity
+1. Navigate to the Activities tab
+2. Click "Create New Activity"
+3. Choose from preset templates or create custom
+4. Add tasks and set XP rewards
+5. Start completing tasks to earn XP and level up
 
-* 📌 XP progression
-* 🏁 Level-up animations
-* 🧑‍💼 Adding internships
-* 🧠 Upgrading RPG stats
-* 💫 Dark/light theme switching
+### Building Your Network
+1. Go to Profile & Social tab
+2. Use the Discover feature to search for players
+3. Follow interesting players to see their progress
+4. Share your achievements on the social feed
+5. Compete on the global leaderboard
+
+### Character Development
+1. Visit the Character Stats tab
+2. Review your current attribute levels
+3. Complete tasks to earn stat points
+4. Allocate points to improve desired attributes
+5. Track your progress over time
 
 ---
 
 ## 🤝 Contributing
 
-Feel free to fork the repo, make enhancements, and submit a PR!
+We welcome contributions to HXBIT! Please follow these guidelines:
 
-```bash
-git checkout -b feature/my-feature
-git commit -m "Added my cool feature"
-git push origin feature/my-feature
-```
+1. Fork the repository
+2. Create a feature branch: `git checkout -b feature/amazing-feature`
+3. Commit your changes: `git commit -m 'Add amazing feature'`
+4. Push to the branch: `git push origin feature/amazing-feature`
+5. Open a Pull Request
 
 ---
 
 ## 📜 License
 
-MIT License. Feel free to use, expand, and customize!
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ---
 
-## 🔗 Connect
+## 🔗 Links & Contact
 
-* **Demo**: *hxbit.netlify.app*
-* **Github**: *ekans-0*
-* **Discord**: *ekans_*
-* **Email Me**: *dave.ekansh@gmail.com*
+- **Live Demo**: [hxbit.netlify.app](https://hxbit.netlify.app)
+- **GitHub**: [github.com/your-username/hxbit](https://github.com/your-username/hxbit)
+- **Documentation**: [docs.hxbit.com](https://docs.hxbit.com)
+- **Support**: [support@hxbit.com](mailto:support@hxbit.com)
 
 ---
 
-> Level up your real-life skills like you're grinding dungeons. Welcome to **ExtracurriHub** — where productivity meets RPG.
+## 🎉 Recent Updates
+
+### Version 2.0.0 - Social Platform Release
+- ✅ Complete social platform with follow system
+- ✅ Modern landing page with auth-aware navigation
+- ✅ Dark theme implementation across all pages
+- ✅ Enhanced profile system with picture uploads
+- ✅ Global leaderboards with follow integration
+- ✅ Improved discovery and search functionality
+- ✅ Real-time social feed with achievement sharing
+- ✅ Mobile-responsive design improvements
+
+### Version 1.5.0 - Character Development
+- ✅ 13-attribute character stat system
+- ✅ Stat point economy and allocation
+- ✅ Professional development tracking
+- ✅ Schedule and planning system
+- ✅ Competition and internship management
+
+### Version 1.0.0 - Core Platform
+- ✅ Basic XP and leveling system
+- ✅ Task and activity management
+- ✅ User authentication and profiles
+- ✅ Database schema and security
+
+---
+
+> **Transform your real-life activities into an engaging RPG experience. Level up your skills, compete with friends, and become the best version of yourself with HXBIT.**

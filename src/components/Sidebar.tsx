@@ -57,34 +57,34 @@ export function Sidebar({ activeTab, setActiveTab, onSignOut, isCollapsed, setIs
   };
 
   return (
-    <div className={`fixed left-0 top-0 h-full bg-white dark:bg-slate-900 border-r border-gray-300 dark:border-slate-700 transition-all duration-300 z-50 flex flex-col ${
+    <div className={`fixed left-0 top-0 h-full bg-gray-900 border-r border-gray-800 transition-all duration-300 z-50 flex flex-col ${
       isCollapsed ? 'w-16' : 'w-64'
     }`}>
       {/* Header - Fixed */}
-      <div className="flex items-center justify-between p-4 border-b border-gray-300 dark:border-slate-700 flex-shrink-0">
+      <div className="flex items-center justify-between p-4 border-b border-gray-800 flex-shrink-0">
         {!isCollapsed && (
           <div className="flex items-center">
             <div className="w-8 h-8 bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg flex items-center justify-center mr-3">
               <span className="text-white font-bold text-sm">⚡</span>
             </div>
-            <h1 className="text-xl font-bold text-gray-900 dark:text-white">Hxbit</h1>
+            <h1 className="text-xl font-bold text-white">HXBIT</h1>
           </div>
         )}
         <button
           onClick={() => setIsCollapsed(!isCollapsed)}
-          className="p-2 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-slate-800 transition-colors"
+          className="p-2 rounded-lg text-gray-300 hover:bg-gray-800 transition-colors"
         >
           {isCollapsed ? <ChevronRight className="w-5 h-5" /> : <ChevronLeft className="w-5 h-5" />}
         </button>
       </div>
 
       {/* Navigation - Scrollable Area */}
-      <div className="flex-1 overflow-y-auto overflow-x-hidden scrollbar-thin scrollbar-thumb-gray-300 dark:scrollbar-thumb-slate-600 scrollbar-track-transparent">
+      <div className="flex-1 overflow-y-auto overflow-x-hidden scrollbar-thin scrollbar-thumb-gray-600 scrollbar-track-transparent">
         <div className="p-2">
           {Object.entries(categories).map(([categoryKey, categoryLabel]) => (
             <div key={categoryKey} className="mb-6">
               {!isCollapsed && (
-                <h3 className="text-xs font-semibold text-gray-600 dark:text-gray-400 uppercase tracking-wider mb-2 px-3">
+                <h3 className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2 px-3">
                   {categoryLabel}
                 </h3>
               )}
@@ -100,7 +100,7 @@ export function Sidebar({ activeTab, setActiveTab, onSignOut, isCollapsed, setIs
                         className={`w-full flex items-center px-3 py-2 rounded-lg transition-all duration-200 ${
                           activeTab === item.id
                             ? 'bg-blue-600 text-white shadow-lg'
-                            : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-slate-800'
+                            : 'text-gray-300 hover:bg-gray-800'
                         } ${isCollapsed ? 'justify-center' : ''}`}
                         title={isCollapsed ? item.label : undefined}
                       >
@@ -118,11 +118,11 @@ export function Sidebar({ activeTab, setActiveTab, onSignOut, isCollapsed, setIs
       </div>
 
       {/* Footer - Fixed */}
-      <div className="border-t border-gray-300 dark:border-slate-700 p-2 flex-shrink-0">
+      <div className="border-t border-gray-800 p-2 flex-shrink-0">
         <div className="space-y-1">
           <button
             onClick={toggleTheme}
-            className={`w-full flex items-center px-3 py-2 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-slate-800 transition-colors ${
+            className={`w-full flex items-center px-3 py-2 rounded-lg text-gray-300 hover:bg-gray-800 transition-colors ${
               isCollapsed ? 'justify-center' : ''
             }`}
             title={isCollapsed ? (isDark ? 'Light Mode' : 'Dark Mode') : undefined}
@@ -136,7 +136,7 @@ export function Sidebar({ activeTab, setActiveTab, onSignOut, isCollapsed, setIs
           </button>
           <button
             onClick={onSignOut}
-            className={`w-full flex items-center px-3 py-2 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-slate-800 transition-colors ${
+            className={`w-full flex items-center px-3 py-2 rounded-lg text-gray-300 hover:bg-gray-800 transition-colors ${
               isCollapsed ? 'justify-center' : ''
             }`}
             title={isCollapsed ? 'Sign Out' : undefined}

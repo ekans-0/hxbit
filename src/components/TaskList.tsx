@@ -45,8 +45,8 @@ export function TaskList({ tasks, extracurriculars, onCompleteTask, onDeleteTask
   if (tasks.length === 0) {
     return (
       <div className="text-center py-8">
-        <Circle className="w-12 h-12 text-gray-400 dark:text-slate-600 mx-auto mb-4" />
-        <p className="text-gray-500 dark:text-slate-400">No tasks yet. Create your first task to start earning XP!</p>
+        <Circle className="w-12 h-12 text-gray-600 mx-auto mb-4" />
+        <p className="text-gray-500">No tasks yet. Create your first task to start earning XP!</p>
       </div>
     );
   }
@@ -60,14 +60,14 @@ export function TaskList({ tasks, extracurriculars, onCompleteTask, onDeleteTask
         return (
           <div
             key={task.id}
-            className={`bg-white dark:bg-slate-800 backdrop-blur-xl border rounded-xl p-4 transition-all duration-200 group ${
+            className={`bg-gray-900 border rounded-xl p-4 transition-all duration-200 group ${
               task.completed 
-                ? 'border-green-300 dark:border-green-500/30 bg-green-50 dark:bg-green-500/5' 
+                ? 'border-green-500/30 bg-green-500/5' 
                 : overdue
-                ? 'border-red-300 dark:border-red-500/50 bg-red-50 dark:bg-red-500/5'
+                ? 'border-red-500/50 bg-red-500/5'
                 : task.is_required
-                ? 'border-yellow-300 dark:border-yellow-500/50 bg-yellow-50 dark:bg-yellow-500/5'
-                : 'border-gray-300 dark:border-slate-700 hover:border-blue-300 dark:hover:border-blue-500/50'
+                ? 'border-yellow-500/50 bg-yellow-500/5'
+                : 'border-gray-800 hover:border-blue-500/50'
             }`}
           >
             <div className="flex items-center justify-between">
@@ -77,8 +77,8 @@ export function TaskList({ tasks, extracurriculars, onCompleteTask, onDeleteTask
                   disabled={task.completed}
                   className={`transition-colors duration-200 ${
                     task.completed 
-                      ? 'text-green-600 dark:text-green-400 cursor-default' 
-                      : 'text-gray-400 dark:text-slate-400 hover:text-green-600 dark:hover:text-green-400 cursor-pointer'
+                      ? 'text-green-400 cursor-default' 
+                      : 'text-gray-400 hover:text-green-400 cursor-pointer'
                   }`}
                 >
                   {task.completed ? (
@@ -91,7 +91,7 @@ export function TaskList({ tasks, extracurriculars, onCompleteTask, onDeleteTask
                 <div className="flex-1">
                   <div className="flex items-center space-x-3 mb-1">
                     <h3 className={`font-semibold ${
-                      task.completed ? 'text-green-700 dark:text-green-300 line-through' : 'text-gray-900 dark:text-white'
+                      task.completed ? 'text-green-300 line-through' : 'text-white'
                     }`}>
                       {task.title}
                     </h3>
@@ -99,14 +99,14 @@ export function TaskList({ tasks, extracurriculars, onCompleteTask, onDeleteTask
                     {/* Task Type Indicators */}
                     <div className="flex items-center space-x-2">
                       {task.is_required && (
-                        <span className="flex items-center text-xs px-2 py-1 bg-yellow-100 dark:bg-yellow-900/30 text-yellow-700 dark:text-yellow-300 rounded-full">
+                        <span className="flex items-center text-xs px-2 py-1 bg-yellow-900/30 text-yellow-300 rounded-full">
                           <AlertTriangle className="w-3 h-3 mr-1" />
                           Required
                         </span>
                       )}
                       
                       {extracurricular && (
-                        <span className="text-xs px-2 py-1 rounded-full bg-gray-100 dark:bg-slate-700 text-gray-700 dark:text-slate-300 flex items-center">
+                        <span className="text-xs px-2 py-1 rounded-full bg-gray-800 text-gray-300 flex items-center">
                           <span className="mr-1">{extracurricular.icon}</span>
                           {extracurricular.name}
                         </span>
@@ -115,13 +115,13 @@ export function TaskList({ tasks, extracurriculars, onCompleteTask, onDeleteTask
                   </div>
                   
                   {task.description && (
-                    <p className="text-sm text-gray-600 dark:text-slate-400 mb-1">{task.description}</p>
+                    <p className="text-sm text-gray-400 mb-1">{task.description}</p>
                   )}
                   
                   {/* Due Date */}
                   {task.due_date && (
                     <div className={`flex items-center text-xs ${
-                      overdue ? 'text-red-600 dark:text-red-400' : 'text-gray-500 dark:text-gray-400'
+                      overdue ? 'text-red-400' : 'text-gray-500'
                     }`}>
                       <Calendar className="w-3 h-3 mr-1" />
                       {formatDueDate(task.due_date)}
@@ -131,14 +131,14 @@ export function TaskList({ tasks, extracurriculars, onCompleteTask, onDeleteTask
               </div>
 
               <div className="flex items-center space-x-3">
-                <div className="flex items-center text-blue-600 dark:text-blue-400">
+                <div className="flex items-center text-blue-400">
                   <Zap className="w-4 h-4 mr-1" />
                   <span className="font-semibold">{task.xp_reward} XP</span>
                 </div>
                 
                 <button
                   onClick={() => handleDeleteTask(task.id)}
-                  className="opacity-0 group-hover:opacity-100 transition-opacity duration-200 text-gray-400 hover:text-red-500 dark:text-slate-400 dark:hover:text-red-400 p-1 rounded-full hover:bg-red-50 dark:hover:bg-red-900/20"
+                  className="opacity-0 group-hover:opacity-100 transition-opacity duration-200 text-gray-400 hover:text-red-400 p-1 rounded-full hover:bg-red-900/20"
                 >
                   <Trash2 className="w-4 h-4" />
                 </button>
@@ -146,8 +146,8 @@ export function TaskList({ tasks, extracurriculars, onCompleteTask, onDeleteTask
             </div>
 
             {task.completed && task.completed_at && (
-              <div className="mt-2 pt-2 border-t border-gray-200 dark:border-slate-700">
-                <p className="text-xs text-gray-500 dark:text-slate-500">
+              <div className="mt-2 pt-2 border-t border-gray-800">
+                <p className="text-xs text-gray-500">
                   Completed on {new Date(task.completed_at).toLocaleDateString()}
                 </p>
               </div>

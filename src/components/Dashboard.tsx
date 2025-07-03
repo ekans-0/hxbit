@@ -38,7 +38,7 @@ export function Dashboard() {
   const handleSignOut = async () => {
     try {
       await signOut();
-      toast.success('See you next time, Hunter!', {
+      toast.success('See you next time, Player!', {
         icon: '👋',
         style: {
           background: '#1F2937',
@@ -83,10 +83,10 @@ export function Dashboard() {
 
   if (extracurricularsLoading || tasksLoading) {
     return (
-      <div className="min-h-screen bg-gray-50 dark:bg-gradient-to-br dark:from-slate-900 dark:via-blue-900 dark:to-slate-900 flex items-center justify-center">
+      <div className="min-h-screen bg-black flex items-center justify-center">
         <div className="text-center">
           <div className="w-16 h-16 border-4 border-blue-500 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
-          <p className="text-gray-700 dark:text-white text-lg">Loading your journey...</p>
+          <p className="text-white text-lg">Loading your journey...</p>
         </div>
       </div>
     );
@@ -101,8 +101,8 @@ export function Dashboard() {
           <div className="space-y-8">
             <div className="flex items-center justify-between">
               <div>
-                <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">Task Management</h1>
-                <p className="text-gray-600 dark:text-gray-400">Track and complete your daily objectives</p>
+                <h1 className="text-3xl font-bold text-white mb-2">Task Management</h1>
+                <p className="text-gray-400">Track and complete your daily objectives</p>
               </div>
               <button
                 onClick={() => setShowCreateTask(true)}
@@ -168,38 +168,38 @@ export function Dashboard() {
 
             {/* Quick Stats Cards */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              <div className="bg-white dark:bg-slate-800/50 backdrop-blur-xl border border-gray-300 dark:border-slate-700 rounded-xl p-6">
+              <div className="bg-gray-900 border border-gray-800 rounded-xl p-6">
                 <div className="flex items-center">
                   <div className="p-3 bg-blue-100 dark:bg-blue-900/30 rounded-lg">
-                    <Trophy className="w-6 h-6 text-blue-600 dark:text-blue-500" />
+                    <Trophy className="w-6 h-6 text-blue-400" />
                   </div>
                   <div className="ml-4">
-                    <p className="text-sm font-medium text-gray-900 dark:text-white">Active Activities</p>
-                    <p className="text-2xl font-bold text-gray-900 dark:text-white">{extracurriculars.length}</p>
+                    <p className="text-sm font-medium text-white">Active Activities</p>
+                    <p className="text-2xl font-bold text-white">{extracurriculars.length}</p>
                   </div>
                 </div>
               </div>
               
-              <div className="bg-white dark:bg-slate-800/50 backdrop-blur-xl border border-gray-300 dark:border-slate-700 rounded-xl p-6">
+              <div className="bg-gray-900 border border-gray-800 rounded-xl p-6">
                 <div className="flex items-center">
                   <div className="p-3 bg-green-100 dark:bg-green-900/30 rounded-lg">
-                    <Target className="w-6 h-6 text-green-600 dark:text-green-400" />
+                    <Target className="w-6 h-6 text-green-400" />
                   </div>
                   <div className="ml-4">
-                    <p className="text-sm font-medium text-gray-900 dark:text-white">Completed Tasks</p>
-                    <p className="text-2xl font-bold text-gray-900 dark:text-white">{completedTasks.length}</p>
+                    <p className="text-sm font-medium text-white">Completed Tasks</p>
+                    <p className="text-2xl font-bold text-white">{completedTasks.length}</p>
                   </div>
                 </div>
               </div>
               
-              <div className="bg-white dark:bg-slate-800/50 backdrop-blur-xl border border-gray-300 dark:border-slate-700 rounded-xl p-6">
+              <div className="bg-gray-900 border border-gray-800 rounded-xl p-6">
                 <div className="flex items-center">
                   <div className="p-3 bg-purple-100 dark:bg-purple-900/30 rounded-lg">
-                    <Zap className="w-6 h-6 text-purple-600 dark:text-purple-400" />
+                    <Zap className="w-6 h-6 text-purple-400" />
                   </div>
                   <div className="ml-4">
-                    <p className="text-sm font-medium text-gray-900 dark:text-white">Pending Tasks</p>
-                    <p className="text-2xl font-bold text-gray-900 dark:text-white">{pendingTasks.length}</p>
+                    <p className="text-sm font-medium text-white">Pending Tasks</p>
+                    <p className="text-2xl font-bold text-white">{pendingTasks.length}</p>
                   </div>
                 </div>
               </div>
@@ -207,12 +207,12 @@ export function Dashboard() {
 
             {/* Extracurriculars Grid */}
             <div>
-              <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">Your Activities</h2>
+              <h2 className="text-2xl font-bold text-white mb-6">Your Activities</h2>
               {extracurriculars.length === 0 ? (
                 <div className="text-center py-12">
                   <Trophy className="w-16 h-16 text-gray-400 mx-auto mb-4" />
-                  <h3 className="text-xl font-semibold text-gray-600 dark:text-slate-400 mb-2">No activities yet</h3>
-                  <p className="text-gray-500 dark:text-slate-500 mb-6">Create your first extracurricular activity to start leveling up!</p>
+                  <h3 className="text-xl font-semibold text-gray-400 mb-2">No activities yet</h3>
+                  <p className="text-gray-500 mb-6">Create your first extracurricular activity to start leveling up!</p>
                   <button
                     onClick={() => setShowCreateExtracurricular(true)}
                     className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-6 py-3 rounded-xl flex items-center mx-auto transition duration-200 transform hover:scale-105"
@@ -237,7 +237,7 @@ export function Dashboard() {
 
             {/* Recent Tasks */}
             <div>
-              <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">Recent Tasks</h2>
+              <h2 className="text-2xl font-bold text-white mb-6">Recent Tasks</h2>
               <TaskList
                 tasks={tasks.slice(0, 10)}
                 extracurriculars={extracurriculars}
@@ -268,9 +268,9 @@ export function Dashboard() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gradient-to-br dark:from-slate-900 dark:via-blue-900 dark:to-slate-900">
-      {/* Background effects for dark mode */}
-      <div className="absolute inset-0 overflow-hidden dark:block hidden">
+    <div className="min-h-screen bg-black">
+      {/* Background effects */}
+      <div className="absolute inset-0 overflow-hidden">
         <div className="absolute -top-40 -right-40 w-80 h-80 rounded-full bg-blue-500/5 blur-3xl animate-pulse"></div>
         <div className="absolute -bottom-40 -left-40 w-80 h-80 rounded-full bg-purple-500/5 blur-3xl animate-pulse delay-700"></div>
         <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 rounded-full bg-cyan-500/3 blur-3xl animate-pulse delay-1000"></div>

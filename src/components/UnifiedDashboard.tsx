@@ -125,7 +125,7 @@ export function UnifiedDashboard({ setActiveTab }: UnifiedDashboardProps) {
       description: 'Fitness, nutrition, and body optimization',
       icon: Dumbbell,
       color: 'from-red-500 to-pink-500',
-      onClick: () => setActiveTab('fitness'),
+      onClick: () => setActiveTab('physical'),
       stats: ['strength', 'agility', 'endurance', 'vitality']
     },
     {
@@ -161,7 +161,7 @@ export function UnifiedDashboard({ setActiveTab }: UnifiedDashboardProps) {
         <div className="flex items-center justify-between">
           <div>
             <h1 className="text-3xl font-bold mb-2">
-              Welcome back, {user?.username}!
+              Welcome, Player {user?.username}
             </h1>
             <p className="text-blue-100 text-lg">Ready to level up your life?</p>
           </div>
@@ -193,7 +193,7 @@ export function UnifiedDashboard({ setActiveTab }: UnifiedDashboardProps) {
 
       {/* Character Stats Overview */}
       <div>
-        <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">Character Overview</h2>
+        <h2 className="text-2xl font-bold text-white mb-6">Character Overview</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {dashboardCards.map((card) => {
             const Icon = card.icon;
@@ -201,18 +201,18 @@ export function UnifiedDashboard({ setActiveTab }: UnifiedDashboardProps) {
               <div
                 key={card.title}
                 onClick={card.onClick}
-                className="bg-white dark:bg-slate-800 rounded-xl p-6 border border-gray-200 dark:border-slate-700 hover:shadow-lg transition-all duration-300 cursor-pointer group"
+                className="bg-gray-900 border border-gray-800 rounded-xl p-6 hover:shadow-lg transition-all duration-300 cursor-pointer group"
               >
                 <div className="flex items-center justify-between mb-4">
                   <div className={`p-3 rounded-lg bg-gradient-to-r ${card.color} bg-opacity-20`}>
                     <Icon className="w-6 h-6 text-white" />
                   </div>
                   <div className="text-right">
-                    <p className="text-2xl font-bold text-gray-900 dark:text-white">{card.value}</p>
-                    <p className="text-sm text-gray-600 dark:text-gray-400">{card.subtitle}</p>
+                    <p className="text-2xl font-bold text-white">{card.value}</p>
+                    <p className="text-sm text-gray-400">{card.subtitle}</p>
                   </div>
                 </div>
-                <h3 className="font-semibold text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+                <h3 className="font-semibold text-white group-hover:text-blue-400 transition-colors">
                   {card.title}
                 </h3>
               </div>
@@ -223,7 +223,7 @@ export function UnifiedDashboard({ setActiveTab }: UnifiedDashboardProps) {
 
       {/* Activity Overview */}
       <div>
-        <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">Activity Overview</h2>
+        <h2 className="text-2xl font-bold text-white mb-6">Activity Overview</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {activityCards.map((card) => {
             const Icon = card.icon;
@@ -231,18 +231,18 @@ export function UnifiedDashboard({ setActiveTab }: UnifiedDashboardProps) {
               <div
                 key={card.title}
                 onClick={card.onClick}
-                className="bg-white dark:bg-slate-800 rounded-xl p-6 border border-gray-200 dark:border-slate-700 hover:shadow-lg transition-all duration-300 cursor-pointer group"
+                className="bg-gray-900 border border-gray-800 rounded-xl p-6 hover:shadow-lg transition-all duration-300 cursor-pointer group"
               >
                 <div className="flex items-center justify-between mb-4">
                   <div className={`p-3 rounded-lg bg-gradient-to-r ${card.color} bg-opacity-20`}>
                     <Icon className="w-6 h-6 text-white" />
                   </div>
                   <div className="text-right">
-                    <p className="text-2xl font-bold text-gray-900 dark:text-white">{card.value}</p>
-                    <p className="text-sm text-gray-600 dark:text-gray-400">{card.subtitle}</p>
+                    <p className="text-2xl font-bold text-white">{card.value}</p>
+                    <p className="text-sm text-gray-400">{card.subtitle}</p>
                   </div>
                 </div>
-                <h3 className="font-semibold text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+                <h3 className="font-semibold text-white group-hover:text-blue-400 transition-colors">
                   {card.title}
                 </h3>
               </div>
@@ -253,7 +253,7 @@ export function UnifiedDashboard({ setActiveTab }: UnifiedDashboardProps) {
 
       {/* Development Areas */}
       <div>
-        <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">Development Areas</h2>
+        <h2 className="text-2xl font-bold text-white mb-6">Development Areas</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {developmentAreas.map((area) => {
             const Icon = area.icon;
@@ -266,33 +266,33 @@ export function UnifiedDashboard({ setActiveTab }: UnifiedDashboardProps) {
               <div
                 key={area.title}
                 onClick={area.onClick}
-                className="bg-white dark:bg-slate-800 rounded-xl p-6 border border-gray-200 dark:border-slate-700 hover:shadow-lg transition-all duration-300 cursor-pointer group"
+                className="bg-gray-900 border border-gray-800 rounded-xl p-6 hover:shadow-lg transition-all duration-300 cursor-pointer group"
               >
                 <div className="flex items-start justify-between mb-4">
                   <div className={`p-3 rounded-lg bg-gradient-to-r ${area.color} bg-opacity-20`}>
                     <Icon className="w-6 h-6 text-white" />
                   </div>
-                  <button className="p-2 rounded-lg bg-gray-100 dark:bg-slate-700 opacity-0 group-hover:opacity-100 transition-opacity">
-                    <Plus className="w-4 h-4 text-gray-600 dark:text-gray-400" />
+                  <button className="p-2 rounded-lg bg-gray-800 opacity-0 group-hover:opacity-100 transition-opacity">
+                    <Plus className="w-4 h-4 text-gray-400" />
                   </button>
                 </div>
                 
-                <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-2 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+                <h3 className="text-lg font-bold text-white mb-2 group-hover:text-blue-400 transition-colors">
                   {area.title}
                 </h3>
-                <p className="text-gray-600 dark:text-gray-400 text-sm mb-4">
+                <p className="text-gray-400 text-sm mb-4">
                   {area.description}
                 </p>
                 
                 <div className="space-y-2">
-                  <p className="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                  <p className="text-xs font-semibold text-gray-500 uppercase tracking-wider">
                     Related Stats
                   </p>
                   <div className="flex flex-wrap gap-2">
                     {relevantStats.map((stat) => (
                       <span
                         key={stat.name}
-                        className="px-2 py-1 bg-gray-100 dark:bg-slate-700 text-gray-700 dark:text-gray-300 text-xs rounded-full"
+                        className="px-2 py-1 bg-gray-800 text-gray-300 text-xs rounded-full"
                       >
                         {stat.name}: {stat.value}
                       </span>
@@ -307,7 +307,7 @@ export function UnifiedDashboard({ setActiveTab }: UnifiedDashboardProps) {
 
       {/* Quick Actions */}
       <div>
-        <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">Quick Actions</h2>
+        <h2 className="text-2xl font-bold text-white mb-6">Quick Actions</h2>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           <button
             onClick={() => setActiveTab('tasks')}
