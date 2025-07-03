@@ -328,6 +328,26 @@ export function LandingPage() {
         </div>
       </section>
 
+      <section id="feedback" className="bg-black py-24 text-white px-4 sm:px-6 lg:px-8">
+        <div className="max-w-4xl mx-auto text-center">
+          <h2 className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-white via-blue-100 to-blue-200 bg-clip-text text-transparent">
+            Share Your Feedback
+          </h2>
+          <p className="text-xl md:text-2xl text-gray-300 mb-10">
+            We’d love to hear your thoughts on HXBIT. Fill out our quick form to help us improve!
+          </p>
+          <a
+              href="https://docs.google.com/forms/d/e/1FAIpQLScoJZE9HHyEDt9H62ZFQuajFueXrPQjLDc6wPwRO7kr_WQtew/viewform?usp=header"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white px-8 py-4 rounded-xl font-semibold text-lg transition-all duration-200 transform hover:scale-105"
+          >
+            Fill Out Feedback Form
+            <ArrowRight className="ml-2 w-5 h-5" />
+          </a>
+        </div>
+      </section>
+
       {/* Footer */}
       <footer className="border-t border-gray-800 py-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
