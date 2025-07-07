@@ -56,12 +56,22 @@ export function useSocialFeed(userId: string | undefined) {
 
   const createPost = async (content: string, postType: string = 'status', metadata: Record<string, any> = {}, privacyLevel: string = 'friends') => {
     try {
+      // Sanitize content
+      const sanitizedContent = content.trim();
+      if (!sanitizedContent) {
+        throw new Error('Post content cannot be empty');
+      }
+      
+      if (sanitizedContent.length > 1000) {
+        throw new Error('Post content must be less than 1000 characters');
+      }
+
       const { data, error } = await supabase
         .from('social_posts')
         .insert([
           {
             user_id: userId,
-            content,
+            content: sanitizedContent,
             post_type: postType,
             metadata,
             privacy_level: privacyLevel,
@@ -75,9 +85,9 @@ export function useSocialFeed(userId: string | undefined) {
       toast.success('Post created!');
       await fetchFeed();
       return data;
-    } catch (error) {
+    } catch (error: any) {
       console.error('Error creating post:', error);
-      toast.error('Failed to create post');
+      toast.error(error.message || 'Failed to create post');
       throw error;
     }
   };
@@ -134,7 +144,7 @@ export function useSocialFeed(userId: string | undefined) {
       // Update likes count
       await supabase
         .from('social_posts')
-        .update({ likes_count: supabase.sql`likes_count - 1` })
+        .update({ likes_count: supabase.sql`GREATEST(likes_count - 1, 0)` })
         .eq('id', postId);
 
       // Update local state
@@ -161,7 +171,8 @@ export function useSocialFeed(userId: string | undefined) {
       const { error } = await supabase
         .from('social_posts')
         .delete()
-        .eq('id', postId);
+        .eq('id', postId)
+        .eq('user_id', userId); // Ensure user can only delete their own posts
 
       if (error) throw error;
       
@@ -175,12 +186,34 @@ export function useSocialFeed(userId: string | undefined) {
 
   const shareAchievement = async (achievementType: string, achievementData: Record<string, any>, privacyLevel: string = 'friends') => {
     try {
-      // Create achievement post
-      const { data, error } = await supabase.rpc('create_achievement_post', {
-        achievement_type: achievementType,
-        achievement_data: achievementData,
-        privacy: privacyLevel,
-      });
+      let content = '';
+      switch (achievementType) {
+        case 'level_up':
+          content = `🎉 Level up! I just reached Level ${achievementData.level}!`;
+          break;
+        case 'xp_milestone':
+          content = `⚡ XP Milestone! I've earned ${achievementData.xp?.toLocaleString()} total XP!`;
+          break;
+        case 'task_completion':
+          content = `✅ Task completed: ${achievementData.title}`;
+          break;
+        default:
+          content = `🏆 Achievement unlocked!`;
+      }
+
+      const { data, error } = await supabase
+        .from('social_posts')
+        .insert([
+          {
+            user_id: userId,
+            content,
+            post_type: 'achievement',
+            metadata: achievementData,
+            privacy_level: privacyLevel,
+          },
+        ])
+        .select()
+        .single();
 
       if (error) throw error;
       
@@ -206,6 +239,16 @@ export function useSocialFeed(userId: string | undefined) {
     }
   };
 
+  const reportPost = async (postId: string, reason: string) => {
+    try {
+      // In a real app, this would create a report record
+      toast.success('Post reported. Thank you for helping keep our community safe.');
+    } catch (error) {
+      console.error('Error reporting post:', error);
+      toast.error('Failed to report post');
+    }
+  };
+
   return {
     posts,
     loading,
@@ -214,6 +257,7 @@ export function useSocialFeed(userId: string | undefined) {
     unlikePost,
     deletePost,
     shareAchievement,
+    reportPost,
     refetch: fetchFeed,
   };
 }

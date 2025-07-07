@@ -22,6 +22,7 @@ import { ScheduleTab } from './ScheduleTab';
 import { ActivitiesTab } from './ActivitiesTab';
 import { ProfileTab } from './ProfileTab';
 import { Plus, Trophy, Target, Zap } from 'lucide-react';
+import { formatNumber } from '../utils/formatters';
 import toast from 'react-hot-toast';
 
 export function Dashboard() {
@@ -98,17 +99,17 @@ export function Dashboard() {
         return <UnifiedDashboard setActiveTab={setActiveTab} />;
       case 'tasks':
         return (
-          <div className="space-y-8">
-            <div className="flex items-center justify-between">
+          <div className="space-y-6 sm:space-y-8">
+            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between space-y-4 sm:space-y-0">
               <div>
-                <h1 className="text-3xl font-bold text-white mb-2">Task Management</h1>
-                <p className="text-gray-400">Track and complete your daily objectives</p>
+                <h1 className="text-2xl sm:text-3xl font-bold text-white mb-2">Task Management</h1>
+                <p className="text-gray-400 text-sm sm:text-base">Track and complete your daily objectives</p>
               </div>
               <button
                 onClick={() => setShowCreateTask(true)}
-                className="bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white px-6 py-3 rounded-xl flex items-center transition duration-200 transform hover:scale-105"
+                className="bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white px-4 py-2 sm:px-6 sm:py-3 rounded-xl flex items-center transition duration-200 transform hover:scale-105 text-sm sm:text-base"
               >
-                <Plus className="w-5 h-5 mr-2" />
+                <Plus className="w-4 h-4 sm:w-5 sm:h-5 mr-2" />
                 New Task
               </button>
             </div>
@@ -144,62 +145,62 @@ export function Dashboard() {
         return <ProfileTab userId={user!.id} />;
       default:
         return (
-          <main className="space-y-8">
+          <main className="space-y-6 sm:space-y-8">
             {/* User Stats */}
             <UserStats user={user!} extracurriculars={extracurriculars} tasks={tasks} />
 
             {/* Action Buttons */}
-            <div className="flex flex-wrap gap-4">
+            <div className="flex flex-col sm:flex-row flex-wrap gap-4">
               <button
                 onClick={() => setShowCreateExtracurricular(true)}
-                className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-6 py-3 rounded-xl flex items-center transition duration-200 transform hover:scale-105"
+                className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-4 py-2 sm:px-6 sm:py-3 rounded-xl flex items-center justify-center transition duration-200 transform hover:scale-105 text-sm sm:text-base"
               >
-                <Plus className="w-5 h-5 mr-2" />
+                <Plus className="w-4 h-4 sm:w-5 sm:h-5 mr-2" />
                 New Activity
               </button>
               <button
                 onClick={() => setShowCreateTask(true)}
-                className="bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white px-6 py-3 rounded-xl flex items-center transition duration-200 transform hover:scale-105"
+                className="bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white px-4 py-2 sm:px-6 sm:py-3 rounded-xl flex items-center justify-center transition duration-200 transform hover:scale-105 text-sm sm:text-base"
               >
-                <Target className="w-5 h-5 mr-2" />
+                <Target className="w-4 h-4 sm:w-5 sm:h-5 mr-2" />
                 New Task
               </button>
             </div>
 
             {/* Quick Stats Cards */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              <div className="bg-gray-900 border border-gray-800 rounded-xl p-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+              <div className="bg-gray-900 border border-gray-800 rounded-xl p-4 sm:p-6">
                 <div className="flex items-center">
                   <div className="p-3 bg-blue-100 dark:bg-blue-900/30 rounded-lg">
-                    <Trophy className="w-6 h-6 text-blue-400" />
+                    <Trophy className="w-5 h-5 sm:w-6 sm:h-6 text-blue-400" />
                   </div>
                   <div className="ml-4">
                     <p className="text-sm font-medium text-white">Active Activities</p>
-                    <p className="text-2xl font-bold text-white">{extracurriculars.length}</p>
+                    <p className="text-xl sm:text-2xl font-bold text-white">{extracurriculars.length}</p>
                   </div>
                 </div>
               </div>
               
-              <div className="bg-gray-900 border border-gray-800 rounded-xl p-6">
+              <div className="bg-gray-900 border border-gray-800 rounded-xl p-4 sm:p-6">
                 <div className="flex items-center">
                   <div className="p-3 bg-green-100 dark:bg-green-900/30 rounded-lg">
-                    <Target className="w-6 h-6 text-green-400" />
+                    <Target className="w-5 h-5 sm:w-6 sm:h-6 text-green-400" />
                   </div>
                   <div className="ml-4">
                     <p className="text-sm font-medium text-white">Completed Tasks</p>
-                    <p className="text-2xl font-bold text-white">{completedTasks.length}</p>
+                    <p className="text-xl sm:text-2xl font-bold text-white">{completedTasks.length}</p>
                   </div>
                 </div>
               </div>
               
-              <div className="bg-gray-900 border border-gray-800 rounded-xl p-6">
+              <div className="bg-gray-900 border border-gray-800 rounded-xl p-4 sm:p-6 sm:col-span-2 lg:col-span-1">
                 <div className="flex items-center">
                   <div className="p-3 bg-purple-100 dark:bg-purple-900/30 rounded-lg">
-                    <Zap className="w-6 h-6 text-purple-400" />
+                    <Zap className="w-5 h-5 sm:w-6 sm:h-6 text-purple-400" />
                   </div>
                   <div className="ml-4">
                     <p className="text-sm font-medium text-white">Pending Tasks</p>
-                    <p className="text-2xl font-bold text-white">{pendingTasks.length}</p>
+                    <p className="text-xl sm:text-2xl font-bold text-white">{pendingTasks.length}</p>
                   </div>
                 </div>
               </div>
@@ -207,22 +208,22 @@ export function Dashboard() {
 
             {/* Extracurriculars Grid */}
             <div>
-              <h2 className="text-2xl font-bold text-white mb-6">Your Activities</h2>
+              <h2 className="text-xl sm:text-2xl font-bold text-white mb-4 sm:mb-6">Your Activities</h2>
               {extracurriculars.length === 0 ? (
-                <div className="text-center py-12">
-                  <Trophy className="w-16 h-16 text-gray-400 mx-auto mb-4" />
-                  <h3 className="text-xl font-semibold text-gray-400 mb-2">No activities yet</h3>
-                  <p className="text-gray-500 mb-6">Create your first extracurricular activity to start leveling up!</p>
+                <div className="text-center py-8 sm:py-12">
+                  <Trophy className="w-12 h-12 sm:w-16 sm:h-16 text-gray-400 mx-auto mb-4" />
+                  <h3 className="text-lg sm:text-xl font-semibold text-gray-400 mb-2">No activities yet</h3>
+                  <p className="text-gray-500 mb-4 sm:mb-6 text-sm sm:text-base">Create your first extracurricular activity to start leveling up!</p>
                   <button
                     onClick={() => setShowCreateExtracurricular(true)}
-                    className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-6 py-3 rounded-xl flex items-center mx-auto transition duration-200 transform hover:scale-105"
+                    className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-4 py-2 sm:px-6 sm:py-3 rounded-xl flex items-center mx-auto transition duration-200 transform hover:scale-105 text-sm sm:text-base"
                   >
-                    <Plus className="w-5 h-5 mr-2" />
+                    <Plus className="w-4 h-4 sm:w-5 sm:h-5 mr-2" />
                     Create First Activity
                   </button>
                 </div>
               ) : (
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 sm:gap-6">
                   {extracurriculars.map((extracurricular) => (
                     <ExtracurricularCard
                       key={extracurricular.id}
@@ -237,7 +238,7 @@ export function Dashboard() {
 
             {/* Recent Tasks */}
             <div>
-              <h2 className="text-2xl font-bold text-white mb-6">Recent Tasks</h2>
+              <h2 className="text-xl sm:text-2xl font-bold text-white mb-4 sm:mb-6">Recent Tasks</h2>
               <TaskList
                 tasks={tasks.slice(0, 10)}
                 extracurriculars={extracurriculars}
@@ -285,8 +286,8 @@ export function Dashboard() {
           setIsCollapsed={setIsCollapsed}
         />
         
-        <main className={`flex-1 transition-all duration-300 ${isCollapsed ? 'ml-16' : 'ml-64'}`}>
-          <div className="p-6">
+        <main className={`flex-1 transition-all duration-300 ${isCollapsed ? 'ml-16' : 'ml-64'} lg:${isCollapsed ? 'ml-16' : 'ml-64'} ${isCollapsed ? 'ml-16' : 'ml-0'} lg:ml-${isCollapsed ? '16' : '64'}`}>
+          <div className="p-4 sm:p-6">
             {renderContent()}
           </div>
         </main>

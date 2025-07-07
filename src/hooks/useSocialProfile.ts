@@ -71,6 +71,10 @@ export function useSocialProfile(userId: string | undefined) {
 
   const searchUsers = async (query: string) => {
     try {
+      // Sanitize query to prevent injection
+      const sanitizedQuery = query.replace(/[%_]/g, '\\$&').trim();
+      if (!sanitizedQuery) return [];
+
       const { data, error } = await supabase
         .from('users')
         .select(`
@@ -78,7 +82,7 @@ export function useSocialProfile(userId: string | undefined) {
           profile:user_profiles(*),
           user_stats(*)
         `)
-        .ilike('username', `%${query}%`)
+        .or(`username.ilike.%${sanitizedQuery}%`)
         .neq('id', userId)
         .limit(20);
 
@@ -160,8 +164,18 @@ export function useSocialProfile(userId: string | undefined) {
 
   const uploadProfilePicture = async (file: File) => {
     try {
+      // Validate file type and size
+      const allowedTypes = ['image/jpeg', 'image/png', 'image/webp'];
+      if (!allowedTypes.includes(file.type)) {
+        throw new Error('Only JPEG, PNG, and WebP images are allowed');
+      }
+      
+      if (file.size > 5 * 1024 * 1024) { // 5MB limit
+        throw new Error('File size must be less than 5MB');
+      }
+
       const fileExt = file.name.split('.').pop();
-      const fileName = `${userId}-${Math.random()}.${fileExt}`;
+      const fileName = `${userId}-${Date.now()}.${fileExt}`;
       const filePath = `profile-pictures/${fileName}`;
 
       const { error: uploadError } = await supabase.storage
